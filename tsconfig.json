@@ -1,0 +1,58 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist",
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "es2022",
+    "module": "es2022",
+    "paths": {
+      "@shared-lib": ["projects/lib/shared-lib/src/public-api"],
+      "@address-lib": ["projects/lib/address-lib/src/public-api"],
+      "@download-lib": ["projects/lib/download-lib/src/public-api"],
+      "@filter-lib": ["projects/lib/filter-lib/src/public-api"],
+      "@authorization-lib": ["projects/lib/authorization-lib/src/public-api"],
+
+      "@MedicalOrganizationModule": ["projects/app/oms-app/src/app/pages/medical-organization/medicalOrganization.module"],
+      "@MedicalOrganizationModuleRoot/*": ["projects/app/oms-app/src/app/pages/medical-organization/*"],
+      "@ExpertAccountingModule": ["projects/app/oms-app/src/app/pages/expert-accounting/expertAccounting.module"],
+      "@ExpertAccountingModuleRoot/*": ["projects/app/oms-app/src/app/pages/expert-accounting/*"],
+      "@ExchangeModule": ["projects/app/oms-app/src/app/pages/exchange/exchange.module"],
+      "@ExchangeModuleRoot/*": ["projects/app/oms-app/src/app/pages/exchange/*"],
+      "@IdentityModule": ["projects/app/portal-app/src/app/pages/identity/identity.module"],
+      "@IdentityModuleRoot/*": ["projects/app/portal-app/src/app/pages/identity/*"],
+      "@EmployeeModule": ["projects/app/portal-app/src/app/pages/employees/employees.module"],
+      "@EmployeeModuleRoot/*": ["projects/app/portal-app/src/app/pages/employees/*"],
+      "@ThesaurusModule": ["projects/app/oms-app/src/app/pages/thesaurus/thesaurus.module"],
+      "@ThesaurusModuleRoot/*": ["projects/app/oms-app/src/app/pages/thesaurus/*"],
+      "@AppealingModule": ["projects/app/oms-app/src/app/pages/appealing/appealing.module"],
+      "@AppealingModuleRoot/*": ["projects/app/oms-app/src/app/pages/appealing/*"],
+      "@SmsServiceModule": ["projects/app/portal-app/src/app/pages/sms-service/sms-service.module"],
+      "@SmsServiceModuleRoot/*": ["projects/app/portal-app/src/app/pages/sms-service/*"],
+      "@EmailServiceModule": ["projects/app/portal-app/src/app/pages/email-service/email-service.module"],
+      "@EmailServiceModuleRoot/*": ["projects/app/portal-app/src/app/pages/email-service/*"],
+      "@MedicalRegistryModule": ["projects/app/oms-app/src/app/pages/medical-registry/medicalRegistry.module"],
+      "@MedicalRegistryModuleRoot/*": ["projects/app/oms-app/src/app/pages/medical-registry/*"],
+    },
+    "lib": [
+      "es2022",
+      "dom"
+    ]
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  }
+}

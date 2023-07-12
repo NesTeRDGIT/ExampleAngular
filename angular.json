@@ -1,0 +1,335 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "oms-app": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:application": {
+          "strict": true
+        },
+        "i18n": {
+          "sourceLocale": "ru-RU"
+        }
+      },
+      "root": "projects/app/oms-app",
+      "sourceRoot": "projects/app/oms-app/src",
+      "prefix": "zms",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "progress": true,
+            "outputPath": "dist/oms-app",
+            "index": "projects/app/oms-app/src/index.html",
+            "main": "projects/app/oms-app/src/main.ts",
+            "polyfills": "projects/app/oms-app/src/polyfills.ts",
+            "assets": [
+              "projects/app/oms-app/src/assets",
+              {
+                "glob": "**/*",
+                "input": "projects/lib/shared-lib/src/lib/fonts/google/materialSymbolSoutlined",
+                "output": "/assets/fonts/google/materialSymbolSoutlined"
+              }
+            ],
+            "styles": [
+              "projects/lib/shared-lib/src/lib/styles/styles.scss",
+              "projects/lib/shared-lib/src/lib/styles/primeNgStyle.scss",
+              "projects/lib/shared-lib/src/lib/styles/googleIcon.scss",
+              "node_modules/primeicons/primeicons.css",
+              "node_modules/primeng/resources/themes/mdc-light-indigo/theme.css",
+              "node_modules/primeng/resources/primeng.min.css"
+            ],
+            "scripts": [
+              "projects/lib/shared-lib/src/lib/types/implementation/date.prototype.implementation.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "crypto-js"
+            ]
+          },
+          "configurations": {
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "tsConfig": "projects/app/oms-app/tsconfig.json"
+            },
+            "test": {
+              "buildOptimizer": true,
+              "optimization": true,
+              "vendorChunk": false,
+              "extractLicenses": false,
+              "sourceMap": false,
+              "namedChunks": false,
+              "tsConfig": "projects/app/oms-app/tsconfig.prod.json",
+              "fileReplacements": [
+                {
+                  "replace": "projects/app/oms-app/src/environments/environment.ts",
+                  "with": "projects/app/oms-app/src/environments/environment.test.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "production": {
+              "buildOptimizer": true,
+              "optimization": true,
+              "vendorChunk": false,
+              "extractLicenses": false,
+              "sourceMap": false,
+              "namedChunks": false,
+              "deleteOutputPath": true,
+              "tsConfig": "projects/app/oms-app/tsconfig.prod.json",
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "projects/app/oms-app/src/environments/environment.ts",
+                  "with": "projects/app/oms-app/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "oms-app:build:production"
+            },
+            "development": {
+              "browserTarget": "oms-app:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        }
+      }
+    },
+    "portal-app": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:application": {
+          "strict": true
+        },
+        "i18n": {
+          "sourceLocale": "ru-RU"
+        }
+      },
+      "root": "projects/app/portal-app",
+      "sourceRoot": "projects/app/portal-app/src",
+      "prefix": "zms",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "progress": true,
+            "outputPath": "dist/portal-app",
+            "index": "projects/app/portal-app/src/index.html",
+            "main": "projects/app/portal-app/src/main.ts",
+            "polyfills": "projects/app/portal-app/src/polyfills.ts",
+            "assets": [
+              "projects/app/portal-app/src/assets",
+              {
+                "glob": "**/*",
+                "input": "projects/lib/shared-lib/src/lib/fonts/google/materialSymbolSoutlined",
+                "output": "/assets/fonts/google/materialSymbolSoutlined"
+              }
+            ],
+            "styles": [
+              "projects/lib/shared-lib/src/lib/styles/styles.scss",
+              "projects/lib/shared-lib/src/lib/styles/primeNgStyle.scss",
+              "projects/lib/shared-lib/src/lib/styles/googleIcon.scss",
+              "node_modules/primeicons/primeicons.css",
+              "node_modules/primeng/resources/themes/mdc-light-indigo/theme.css",
+              "node_modules/primeng/resources/primeng.min.css"
+            ],
+            "scripts": [
+              "projects/lib/shared-lib/src/lib/types/implementation/date.prototype.implementation.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "crypto-js"
+            ]
+          },
+          "configurations": {
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "tsConfig": "projects/app/portal-app/tsconfig.json"
+            },
+            "test": {
+              "buildOptimizer": true,
+              "optimization": true,
+              "vendorChunk": false,
+              "extractLicenses": false,
+              "sourceMap": false,
+              "namedChunks": false,
+              "tsConfig": "projects/app/portal-app/tsconfig.prod.json",
+              "fileReplacements": [
+                {
+                  "replace": "projects/app/portal-app/src/environments/environment.ts",
+                  "with": "projects/app/portal-app/src/environments/environment.test.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "production": {
+              "buildOptimizer": true,
+              "optimization": true,
+              "vendorChunk": false,
+              "extractLicenses": false,
+              "sourceMap": false,
+              "namedChunks": false,
+              "deleteOutputPath": true,
+              "tsConfig": "projects/app/portal-app/tsconfig.prod.json",
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "projects/app/portal-app/src/environments/environment.ts",
+                  "with": "projects/app/portal-app/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "portal-app:build:production"
+            },
+            "development": {
+              "browserTarget": "portal-app:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        }
+      }
+    },
+    "shared-lib": {
+      "projectType": "library",
+      "root": "projects/lib/shared-lib",
+      "sourceRoot": "projects/lib/shared-lib/src",
+      "prefix": "zms",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/lib/shared-lib/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/lib/shared-lib/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/lib/shared-lib/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        }
+      }
+    },
+    "address-lib": {
+      "projectType": "library",
+      "root": "projects/lib/address-lib",
+      "sourceRoot": "projects/lib/address-lib/src",
+      "prefix": "zms",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/lib/address-lib/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/lib/address-lib/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/lib/address-lib/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        }
+      }
+    },
+    "download-lib": {
+      "projectType": "library",
+      "root": "projects/lib/download-lib",
+      "sourceRoot": "projects/lib/download-lib/src",
+      "prefix": "zms",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/lib/download-lib/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/lib/download-lib/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/lib/download-lib/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        }
+      }
+    },
+    "filter-lib": {
+      "projectType": "library",
+      "root": "projects/lib/filter-lib",
+      "sourceRoot": "projects/lib/filter-lib/src",
+      "prefix": "zms",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/lib/filter-lib/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/lib/filter-lib/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/lib/filter-lib/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        }
+      }
+    },
+    "authorization-lib": {
+      "projectType": "library",
+      "root": "projects/lib/authorization-lib",
+      "sourceRoot": "projects/lib/authorization-lib/src",
+      "prefix": "zms",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/lib/authorization-lib/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/lib/authorization-lib/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/lib/authorization-lib/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        }
+      }
+    }
+  },
+  "cli": {
+    "analytics": false
+  }
+}

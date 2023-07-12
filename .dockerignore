@@ -1,0 +1,6 @@
+dist
+node_modules
+.an
+.angular
+.vscode
+npm-debug.log

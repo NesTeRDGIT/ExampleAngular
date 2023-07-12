@@ -1,0 +1,74 @@
+<div class="container">
+  <p-card>
+    <ng-template pTemplate="header">
+      Основные данные
+    </ng-template>
+    <span class="field">
+      <label>Дата создания</label>
+      <input type="text" pInputText [ngModel]="model.CreatedDate | date : 'dd.MM.yyyy HH:mm'" [readonly]="true" />
+    </span>
+
+    <zms-input-double [value]="model.Status.Value" label="Статус" [name]="model.Status.Name"/>
+    <zms-input-double [value]="model.Category.Value" label="Категория" [name]="model.Category.Name"/>
+
+    <div class="recipient">
+      <div class="phone">
+        <span class="field">
+          <label>Номер получателя</label>
+          <input type="text" pInputText [ngModel]="model.Recipient.Phone" [readonly]="true" />
+        </span>
+      </div>
+      <div class="name">
+        <span class="field">
+          <label>Имя получателя</label>
+          <input type="text" pInputText [ngModel]="model.Recipient.Name" [readonly]="true" />
+        </span>
+      </div>
+    </div>
+
+    <span class="field">
+      <label>Текст сообщения</label>
+      <input type="text" pInputText [ngModel]="model.Text" [readonly]="true" />
+    </span>
+
+    <span class="field">
+      <label>Имя отправителя</label>
+      <input type="text" pInputText [ngModel]="model.SenderName" [readonly]="true" />
+    </span>
+
+    <span class="field">
+      <label>Период отправки</label>
+      <input type="text" pInputText [ngModel]="model.SendingPeriod.toString()" [readonly]="true" />
+    </span>
+
+    <span class="field">
+      <label>Дата обработки</label>
+      <input type="text" pInputText [ngModel]="model.ProcessedDate | date : 'dd.MM.yyyy HH:mm'" [readonly]="true" />
+    </span>
+
+    <span class="field">
+      <label>Провайдер</label>
+      <input type="text" pInputText [ngModel]="model.Provider" [readonly]="true" />
+    </span>
+
+    <span class="field">
+      <label>Дата отправки СМС</label>
+      <input type="text" pInputText [ngModel]="model.SendingDate | date : 'dd.MM.yyyy HH:mm'" [readonly]="true" />
+    </span>
+
+    <span class="field">
+      <label>Внешний идентификатор</label>
+      <input type="text" pInputText [ngModel]="model.ExternalId" [readonly]="true" />
+    </span>
+
+    <span class="field">
+      <label>Количество потраченных СМС</label>
+      <input type="text" pInputText [ngModel]="model.SmsCount" [readonly]="true" />
+    </span>
+
+    <span class="field">
+      <label>Комментарий</label>
+      <input type="text" pInputText [ngModel]="model.Comment" [readonly]="true" />
+    </span>
+  </p-card>
+</div>

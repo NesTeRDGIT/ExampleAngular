@@ -1,0 +1,65 @@
+<zms-page-template [header]="'Работа СМС сервиса'">
+  <ng-template keyTemplate="filter">
+    <zms-filter-panel #FilterPanel (filter)="onFilter($event)">
+      <zms-filter-number [field]="'Id'" [header]="'Id'"></zms-filter-number>
+      <zms-filter-date-range [field]="'CreatedDate'" [header]="'Дата создания'"></zms-filter-date-range>
+      <zms-filter-select [field]="'StatusValue'" [header]="'Статус'" [options]="(dictionaryService.Status.Items|async) || []" optionValue="Value"
+        optionLabel="Name"></zms-filter-select>
+      <zms-filter-select [field]="'CategoryValue'" [header]="'Категория'" [options]="(dictionaryService.Category.Items|async) || []" optionValue="Value"
+        optionLabel="Name"></zms-filter-select>
+      <zms-filter-date-range [field]="'ProcessedDate'" [header]="'Дата обработки'"></zms-filter-date-range>
+      <zms-filter-text [field]="'ExternalId'" [header]="'Внешний идентификатор'"></zms-filter-text>
+      <zms-filter-date-range [field]="'SendDate'" [header]="'Дата отправки'"></zms-filter-date-range>
+      <zms-filter-text [field]="'Phone'" [header]="'Номер телефона'"></zms-filter-text>
+    </zms-filter-panel>
+  </ng-template>
+  <ng-template keyTemplate="data">
+    <p-table #Table [value]="smsItems.items" [contextMenu]="cm" dataKey="Id" selectionMode="multiple" [metaKeySelection]="true"
+      [(contextMenuSelection)]="selection.contextSelect" [loading]="loading" sortMode="multiple" styleClass="p-datatable-striped" class="flex" [scrollable]="true"
+      [resizableColumns]="true" [columnResizeMode]="'expand'" [paginator]="true" [showCurrentPageReport]="true"
+      currentPageReportTemplate="Отображено с {first} по {last} запись из {totalRecords}" [rowsPerPageOptions]="[200, 500]" [rows]="200"
+      [totalRecords]="smsItems.totalCount" [lazy]="true" (onLazyLoad)="loadLazyTable($event)" [multiSortMeta]="[{field: 'Id', order: -1}]">
+      <ng-template pTemplate="header">
+        <tr>
+          <th [pSortableColumn]="'Id'" style="width: 100px">Id <p-sortIcon [field]="'Id'"></p-sortIcon></th>
+          <th [pSortableColumn]="'CreatedDate'" style="width: 140px">Дата создания <p-sortIcon [field]="'CreatedDate'"></p-sortIcon></th>
+          <th [pSortableColumn]="'StatusName'" style="width: 140px">Статус <p-sortIcon [field]="'StatusName'"></p-sortIcon></th>
+          <th [pSortableColumn]="'CategoryName'" style="width: 140px">Категория <p-sortIcon [field]="'CategoryName'"></p-sortIcon></th>
+          <th [pSortableColumn]="'Text'" style="width: 200px">Текст <p-sortIcon [field]="'Text'"></p-sortIcon></th>
+          <th [pSortableColumn]="'ProcessedDate'" style="width: 140px">Дата обработки <p-sortIcon [field]="'ProcessedDate'"></p-sortIcon></th>
+          <th [pSortableColumn]="'Comment'" style="width: 200px">Комментарий <p-sortIcon [field]="'Comment'"></p-sortIcon></th>
+          <th [pSortableColumn]="'ExternalId'" style="width: 150px">Внешний идентификатор <p-sortIcon [field]="'ExternalId'"></p-sortIcon></th>
+          <th [pSortableColumn]="'SmsCount'" style="width: 150px">Количество затраченных СМС <p-sortIcon [field]="'SmsCount'"></p-sortIcon></th>
+          <th [pSortableColumn]="'SendingDate'" style="width: 140px">Дата отправки <p-sortIcon [field]="'SendingDate'"></p-sortIcon></th>
+          <th style="width: 140px">Временной период отправки сообщения</th>
+          <th style="width: 140px">Номер телефона</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+        <tr [pSelectableRow]="item" [pSelectableRowIndex]="rowIndex" (dblclick)="onShowDetail(item.Id)">
+          <td>{{item.Id}}</td>
+          <td>{{item.CreatedDate | date : "dd.MM.yyyy HH:mm"}}</td>
+          <td>{{item.StatusName}}</td>
+          <td>{{item.CategoryName}}</td>
+          <td>{{item.Text}}</td>
+          <td>{{item.ProcessedDate | date : "dd.MM.yyyy HH:mm"}}</td>
+          <td>{{item.Comment}}</td>
+          <td>{{item.ExternalId}}</td>
+          <td style="text-align: right;">{{item.SmsCount}}</td>
+          <td>{{item.SendingDate | date : "dd.MM.yyyy HH:mm"}}</td>
+          <td style="text-align: center;">{{item.SendingPeriod}}</td>
+          <td>{{item.Phone}}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+    <p-contextMenu #cm [model]="selection.contextMenuItems" appendTo="body"></p-contextMenu>
+    <p-dialog [(visible)]="detailVisible.visible" [modal]="true" [style]="{width: '50vw',height:'auto'}" [position]="'center'" [draggable]="false" [resizable]="false"
+      [focusTrap]="false" (onHide)="onHideDetail()" [header]="'Просмотр данных о сообщении'" [styleClass]="'flex'">
+      <zms-message-viewer *ngIf="detailVisible.visible" [MessageId]="detailVisible.value" (close)="onHideDetail()"/>
+    </p-dialog>
+  </ng-template>
+
+  <ng-template keyTemplate="summary">
+    <zms-message-summary #ZmsMessageSummary (filter)="onFilterSummary($event)" />
+  </ng-template>
+</zms-page-template>

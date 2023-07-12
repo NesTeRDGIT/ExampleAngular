@@ -1,0 +1,4 @@
+<div class="field">
+    <label>{{header}}</label>
+    <p-calendar #calendar [(ngModel)]="value" (onClose)="onClose()" [view]="calendarTypeView" selectionMode="range" [dateFormat]="dateFormat" appendTo="body" (keyup)="onKeyUp($event)"></p-calendar>
+</div>

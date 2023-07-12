@@ -1,0 +1,17 @@
+.date-picker {
+
+  display: flex;
+
+  span {
+    color: gray;
+    width: 20px;
+  }
+
+  p-calendar {
+    width: 100%;
+  }
+
+  &.end-picker {
+    margin-top: 5px;
+  }
+}

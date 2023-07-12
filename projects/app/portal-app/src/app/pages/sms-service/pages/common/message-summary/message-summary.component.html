@@ -1,0 +1,39 @@
+<div class="summary-content">
+  <p-table [value]="model" [loading]="loading">
+    <ng-template pTemplate="body" let-summary>
+      <tr>
+        <th (click)="filterBySummary('Total')">Всего<i class="google-symbol help" [pTooltip]="'сообщений/смс'"
+          tooltipPosition="top"></i>:</th>
+        <td>{{summary.TotalMessage}}/{{summary.TotalSms}}</td>
+      </tr>
+      <tr [ngClass]="{'activeFilter': summaryFilterState === 'New'}">
+        <th (click)="filterBySummary('New')">
+          <zms-row-indicator [view]="'blue'"></zms-row-indicator>
+          Новых:
+        </th>
+        <td>{{summary.NewMessage}}/{{summary.NewSms}}</td>
+      </tr>
+      <tr [ngClass]="{'activeFilter': summaryFilterState === 'InProcessing'}">
+        <th (click)="filterBySummary('InProcessing')">
+          <zms-row-indicator [view]="'orange'"></zms-row-indicator>
+          В обработке:
+        </th>
+        <td>{{summary.InProcessingMessage}}/{{summary.InProcessingSms}}</td>
+      </tr>
+      <tr [ngClass]="{'activeFilter': summaryFilterState === 'Sent'}">
+        <th (click)="filterBySummary('Sent')">
+          <zms-row-indicator [view]="'green'"></zms-row-indicator>
+          Отправлено:
+        </th>
+        <td>{{summary.SentMessage}}/{{summary.SentSms}}</td>
+      </tr>
+      <tr [ngClass]="{'activeFilter': summaryFilterState === 'Error'}">
+        <th (click)="filterBySummary('Error')">
+          <zms-row-indicator [view]="'red'"></zms-row-indicator>
+          Ошибки:
+        </th>
+        <td>{{summary.ErrorMessage}}/{{summary.ErrorSms}}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

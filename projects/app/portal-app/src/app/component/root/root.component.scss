@@ -1,0 +1,64 @@
+.root {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    .root-menu {
+        flex: 0 0 45px;
+        margin-bottom: 2px;
+    }
+
+    .root-container {
+        flex: 1;
+        margin: 0;
+        max-height: 100%;
+        padding: 0 !important;
+        overflow: auto;
+    }
+
+
+    .confirm-message {
+        width: 100%;
+
+        .icon {
+            display: flex;
+            color: #ff9100;
+            font-weight: bold;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            i {
+                color: #ff9100;
+                font-size: 3rem
+            }
+        }
+
+        .content {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+
+            ::ng-deep .reject {
+                .p-button {
+                    background-color: gray !important;
+
+                    &:hover {
+                        background-color: rgb(78, 78, 78) !important;
+                    }
+                }
+            }
+        }
+    }
+}

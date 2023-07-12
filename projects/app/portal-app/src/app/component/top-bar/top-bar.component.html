@@ -1,0 +1,12 @@
+<nav class="navbar">
+  <div class="menu-start">
+    <div *ngIf="!isTest" class="logo"></div>
+    <h2 *ngIf="isTest" class="test-label">Тестовый стенд</h2>
+  </div>
+  <div class="menu-center">
+    <p-menubar [model]="menuItems"></p-menubar>
+  </div>
+  <div class="menu-end">
+    <p-menubar [model]="menuRightItems" class="right"></p-menubar>
+  </div>
+</nav>
