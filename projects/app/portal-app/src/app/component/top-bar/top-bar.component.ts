@@ -85,34 +85,12 @@ export class TopBarComponent implements OnInit {
   /** Создание левого меню */
   private generateLeftMenuItems = () => {
     this.menuRightItems = [];
-    if (this.profiles?.Identity.HasRights || this.profiles?.EmailService.HasRights || this.profiles?.SmsService.HasRights) {
       const adminMenuItem: MenuItem = { label: 'Администрирование', icon: 'google-symbol admin_panel_settings' };
       adminMenuItem.items = [];
 
-      this.menuRightItems.push(adminMenuItem);
-      if (this.profiles?.Identity.HasRights) {
-        adminMenuItem.items.push({ label: 'Пользователи', icon: 'google-symbol badge', routerLink: '/identity' });
-      }
-
-      if (this.profiles?.EmailService.HasRights) {
-        adminMenuItem.items.push({ label: 'Сервис отправки Email', icon: 'google-symbol alternate_email', routerLink: '/email-service' });
-      }
       if (this.profiles?.SmsService.HasRights) {
         adminMenuItem.items.push({ label: 'Сервис отправки СМС', icon: 'google-symbol system_update', routerLink: '/sms-service' });
       }
-    }
-
-    if (this.isUserAuthenticated) {
-      const loginMenuItem: MenuItem = { label: this.userName, icon: 'google-symbol person' };
-      this.menuRightItems.push(loginMenuItem);
-      loginMenuItem.items = [
-        { label: 'Обновить профиль', icon: 'google-symbol refresh', command: () => { this.refreshToken(); } },
-        { label: 'Выход', icon: 'google-symbol logout', command: () => { this.logout(); } }
-      ];
-    } else {
-      const loginMenuItem: MenuItem = { label: 'Вход', icon: 'google-symbol person', command: () => { this.login(); } };
-      this.menuRightItems.push(loginMenuItem);
-    }
   }
 
   /** Коллекция профилей  */

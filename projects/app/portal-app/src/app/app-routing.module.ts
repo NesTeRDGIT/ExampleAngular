@@ -10,23 +10,9 @@ import { AutoLoginComponent } from './component/auto-login/auto-login.component'
 
 
 const routes: Routes = [
-  { path: '', loadChildren: () => import('@EmployeeModule').then(m => m.EmployeesModule)},
-  { path: 'employees',  loadChildren: () => import('@EmployeeModule').then(m => m.EmployeesModule) },
-  {
-    path: 'identity',
-    loadChildren: () => import('@IdentityModule').then(m => m.IdentityModule),
-    canActivate: [AuthGuardService],
-    data: { profile: ProfileConstant.Identity }
-  },
   {
     path: 'sms-service',
     loadChildren: () => import('@SmsServiceModule').then(m => m.SmsServiceModule),
-    canActivate: [AuthGuardService],
-    data: { profile: ProfileConstant.Appealing }
-  },
-  {
-    path: 'email-service',
-    loadChildren: () => import('@EmailServiceModule').then(m => m.EmailServiceModule),
     canActivate: [AuthGuardService],
     data: { profile: ProfileConstant.Appealing }
   },
