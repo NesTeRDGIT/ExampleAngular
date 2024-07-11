@@ -1,0 +1,54 @@
+:host {
+  .summary-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    zms-table {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+
+      tr {
+        cursor: pointer;
+
+        th {
+          text-align: left;
+          width: 80%;
+          font-weight: normal;
+          padding: 5px 5px 5px 10px;
+
+          i {
+            vertical-align: middle;
+          }
+        }
+
+        td {
+          text-align: right;
+          width: 20%;
+          padding: 5px 5px 5px 10px;
+          border: none !important;
+        }
+      }
+
+      tr:hover {
+
+        td,
+        th {
+          background: #ecf1e2;
+        }
+      }
+    }
+  }
+
+  .activeFilter {
+    background-color: var(--green-300) !important;
+    cursor: pointer;
+
+    &:hover td,
+    th {
+      background-color: var(--green-300) !important;
+
+    }
+  }
+}

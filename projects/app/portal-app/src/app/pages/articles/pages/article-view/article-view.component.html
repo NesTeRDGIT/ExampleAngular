@@ -1,0 +1,26 @@
+<zms-page-template [header]="'Просмотр статьи'">
+  <ng-template [keyTemplate]="'toolbar-right'">
+    <div class="toolbar">
+      <zms-button [label]="'Назад'" [icon]="'google-symbol arrow_circle_left'" [severity]="'secondary'" (clickEvent)="onCloseClick()" />
+    </div>
+  </ng-template>
+  <ng-template [keyTemplate]="'data'">
+    <zms-loader-content [loading]="loading()" [message]="'Загрузка...'">
+      <div class="container">
+        <zms-card class="content" [scrollStyle]="true">
+          <div>
+            <div class="header">
+              <h1>{{model().Title}}</h1>
+              <span>Дата создания: {{model().CreatedDate | date : 'dd.MM.yyyy HH:mm'}}</span>
+            </div>
+            <hr />
+            <zms-editor [editable]="false" [ngModel]="model().Content | imgSrcUpdate : imgSrcUpdater" />
+          </div>
+        </zms-card>
+        <zms-card [header]="'Вложения'" class="attachments">
+          <zms-attachment-list [articleId]="model().Id" [readonly]="true" />
+        </zms-card>
+      </div>
+    </zms-loader-content>
+  </ng-template>
+</zms-page-template>

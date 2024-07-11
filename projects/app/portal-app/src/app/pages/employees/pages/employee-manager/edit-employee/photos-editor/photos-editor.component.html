@@ -1,0 +1,33 @@
+<zms-loader-content [loading]="loading()" [message]="'Запрос фотографий'">
+  <zms-galleria [items]="photos()" [(visible)]="displayFullScreen.visible" [(activeIndex)]="displayFullScreen.value" [maxWidth]="'50%'">
+    <ng-template [keyTemplate]="'item'" let-item>
+      <img alt="photo" [src]="employeePhotoRepository.getUrlImageById(item.Id)" style="width: 80vw; height: 80vh; object-fit:contain;" />
+    </ng-template>
+    <ng-template [keyTemplate]="'thumbnail'" let-item>
+      <div>
+        <img alt="photo" [src]="employeePhotoRepository.getUrlThumbnailImageById(item.Id)" style="width: 100px; height: 100px; object-fit:contain;" />
+      </div>
+    </ng-template>
+  </zms-galleria>
+
+  <div class="thumbnail-container">
+    @for (photo of photos(); track photo.Id; let index = $index) {
+      <div class="image-container" >
+        <img alt="photo" [src]="employeePhotoRepository.getUrlThumbnailImageById(photo.Id)" role="button" tabindex="0" [alt]="photo.Name" (click)="onImageClick(index)" (keydown)="onImageKeyDown($event,index)"/>
+        @if (!readonly()) {
+          <i class="google-symbol close" tabindex="0" role="button" aria-label="Удалить фото" (click)="onRemoveImageClick(photo)" (keydown)="onRemoveImageKeyDown($event, photo)"></i>
+        }
+      </div>
+    }
+    @if (!readonly()) {
+      <div class="add-container" tabindex="0" role="button" aria-label="Добавить фото" (click)="onAddClick()" (keydown)="onAddKeyDown($event)">
+        <input #InputFile hidden type="file" accept="image/png, image/jpeg" (change)="onFileSelected($event)" />
+        @if (uploading()) {
+          <zms-knob [(ngModel)]="uploadProgress" />
+        } @else {
+          <i class="google-symbol add_circle"></i>
+        }
+      </div>
+    }
+  </div>
+</zms-loader-content>

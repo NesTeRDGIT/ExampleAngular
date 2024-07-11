@@ -1,0 +1,21 @@
+:host {
+  display: inherit;
+
+  .action {
+    margin-bottom: 10px
+  }
+
+  hr {
+    margin-bottom: 8px;
+  }
+
+  .field-checkbox {
+    padding-top: 6px;
+    display: flex;
+    align-items: center;
+
+    label {
+      padding-left: 3px;
+    }
+  }
+}

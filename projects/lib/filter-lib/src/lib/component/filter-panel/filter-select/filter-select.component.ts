@@ -1,4 +1,4 @@
-import { Component, forwardRef, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, forwardRef, input, untracked } from '@angular/core';
 import { FilterPanelComponent } from '../filter-panel.component';
 import { FilterField } from '../../../model/FilterField';
 import { FilterItemBaseComponent } from '../filter-item-base/filter-item-base.component';
@@ -8,94 +8,79 @@ import { TypeComparer } from '../../../model/TypeComparer';
 @Component({
   selector: 'zms-filter-select',
   templateUrl: './filter-select.component.html',
+  styleUrl: './filter-select.component.scss',
   providers: [{ provide: FilterItemBaseComponent, useExisting: forwardRef(() => FilterSelectComponent) }],
-  host: { class: 'filter-select' }
+  host: { class: 'filter-select' },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FilterSelectComponent extends FilterItemBaseComponent<unknown[]> implements OnInit {
-
-  _options: unknown[] = []
-  /** Варианты для выбора */
-  @Input() set options(values: unknown[]) {
-    this._options = values;
-    this.setDefault();
-  }
-
-  get options(): unknown[] {
-    return this._options;
-  }
-
-  /** Поля для отображение */
-  @Input() optionLabel = "";
-
-  /** Поле для значения */
-  @Input() optionValue = "";
+export class FilterSelectComponent extends FilterItemBaseComponent<unknown[]> {
 
   constructor(owner: FilterPanelComponent) {
     super(owner);
-    if (this.value == undefined) {
-      this.value = [];
+    if (this.value() == undefined) {
+      this.value.set([]);
     }
+
+    effect(() => {
+      const options = this.options();
+      if (options.length !== 0) {
+        untracked(this.setDefault);
+      }
+    });
   }
 
-  ngOnInit(): void {
-    if (this.field) {
-      this.filter = FilterField.Create(this.field, TypeComparer.in,this.custom, this.name, this.singleUrl);
-      this.owner.filters.push(this.filter)
-    }
-    this.setDefault();
+  /** Варианты для выбора */
+  options = input<unknown[]>([]);
+
+  /** Поля для отображение */
+  optionLabel = input("");
+
+  /** Поле для значения */
+  optionValue = input("");
+
+  getFilterField = (): FilterField[] => {
+    return [FilterField.Create(this.field(), TypeComparer.in, false, '', this.singleUrl(), this.value())];
   }
 
-  commitFilter = () => {
-    if (this.filter) {
-      this.filter.value = this.value;
-    }
-  }
-
-  rollbackFilter = () => {
-    if (this.filter && Array.isArray(this.filter.value)) {
-      this.value = this.filter.value;
-    } else {
-      this.value = [];
-    }
-  };
-
-  clearFilter = () => {
-    if (this.filter) {
-      this.filter.value = this.value = [];
-    }
+  clearFilter = () : void => {
+    this.value.set([]);
   }
 
   hasValue = (): boolean => {
-    if (this.value) {
-      return this.value.length !== 0;
+    const value = this.value();
+    if (value) {
+      return value.length !== 0;
     } else {
       return false;
     }
   }
 
   /** Установить значение по умолчанию */
-  setDefault = () => {
-    if (this.default !== undefined) {
-      /** В массив значений */
-      if (!Array.isArray(this.default)) {
-        this.default = [this.default];
-      }
+  override setDefault = () : void => {
+    const def = this.default();
+    const defaultItems = def.flatMap(x => Array.isArray(x.value) ? x.value : [x.value]);
+
+    if (defaultItems.length !== 0) {
+
+      const options = this.options();
+      const optionValue = this.optionValue();
       /** Если варианты уже установленны */
-      if (this.options.length != 0) {
-        this.value = [];
-        for (const opt of this.options) {
-          const obj: any = opt;
-          const value = obj[this.optionValue];
-          if (value != undefined) {
-            for (const defItem of this.default) {
-              if (defItem == value) {
-                this.value?.push(value);
-              }
+      if (options.length != 0) {
+        const optionsItems = options.map(opt => (opt as any)[optionValue]);
+        const newValue: unknown[] = [];
+        optionsItems.forEach(opt => {
+          for (const def of defaultItems) {
+            if (def == opt) {
+              newValue.push(opt);
+              break;
             }
           }
-        }
+        });
+        /** Ставим значения присутствующие в вариантах */
+        this.value.set(newValue);
       } else {
-        this.value = this.default;
+        /** Ставим значения по умолчанию */
+        this.value.set(defaultItems);
       }
     }
   }

@@ -1,5 +1,4 @@
-import { TableLazyLoadEvent } from "primeng/table";
-
+import { TableLazyLoadEvent } from "@components-lib";
 
 /** Данные о страничном режиме */
 export class PaginationData {

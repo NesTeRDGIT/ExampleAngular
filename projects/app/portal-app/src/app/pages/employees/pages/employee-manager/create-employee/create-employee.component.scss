@@ -1,0 +1,27 @@
+:host {
+  flex: inherit;
+  display: inherit;
+  flex-direction: inherit;
+
+  .container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    justify-content: space-between;
+
+    .employee-container {
+      flex: 1 1 0;
+      overflow: auto;
+
+      .period {
+        display: flex;
+        justify-content: flex-start;
+      }
+    }
+  }
+
+  hr {
+    margin-bottom: 8px;
+  }
+}

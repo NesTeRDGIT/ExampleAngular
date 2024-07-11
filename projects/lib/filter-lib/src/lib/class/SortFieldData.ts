@@ -1,7 +1,7 @@
-/** Данные о поле сортировки сортировке  */
+/** Данные о поле сортировки  */
 export class SortFieldData {
 
-  constructor(fieldName: string, order: 'Asc' | 'Desc'){
+  constructor(fieldName: string, order: OrderType){
     this.fieldName = fieldName;
     this.order = order;
   }
@@ -10,5 +10,8 @@ export class SortFieldData {
   fieldName = "";
 
   /** Порядок сортировки */
-  order : 'Asc' | 'Desc' = 'Asc';
+  order : OrderType = 'Asc';
 }
+
+/** Типы сортировки */
+export type OrderType = 'Asc' | 'Desc';

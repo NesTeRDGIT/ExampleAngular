@@ -1,0 +1,28 @@
+<zms-double-panel [showSecondPanel]="workPeriodEditVisible.visible()" [hideBorder]="true">
+  <ng-template [keyTemplate]="'FirstPanel'">
+    @if (!readonly) {
+      <div class="action">
+        <zms-button [label]="'Добавить'" [icon]="'google-symbol add_circle'" (clickEvent)="onAddClick()" />
+      </div>
+    }
+    <zms-table [items]="items()" [contextMenu]="readonly() ? null : cm" [dataKey]="'Id'" [(selection)]="selection.selectedItems" [selectionMode]="'multiple'"
+      [(contextMenuSelection)]="selection.contextSelect" [loading]="loading()" (contextMenuSelect)="onContextMenuSelect()">
+      <ng-template [keyTemplate]="'header'">
+        <tr>
+          <th>Дата начала</th>
+          <th>Дата окончания</th>
+        </tr>
+      </ng-template>
+      <ng-template [keyTemplate]="'body'" let-item let-rowIndex="rowIndex">
+        <tr [zmsContextMenuRow]="item" [zmsSelectableRow]="item" [zmsSelectableRowIndex]="rowIndex" (dblclick)="onDblClick(item)">
+          <td>{{item.DateStart|date:'dd.MM.yyyy'}}</td>
+          <td>{{item.DateEnd|date:'dd.MM.yyyy'}}</td>
+        </tr>
+      </ng-template>
+    </zms-table>
+    <zms-context-menu #cm [items]="selection.contextMenuItems()" />
+  </ng-template>
+  <ng-template [keyTemplate]="'SecondPanel'">
+    <zms-work-period-edit [model]="workPeriodEditVisible.value()" (changed)="onChanged()" (closed)="onClose()" />
+  </ng-template>
+</zms-double-panel>

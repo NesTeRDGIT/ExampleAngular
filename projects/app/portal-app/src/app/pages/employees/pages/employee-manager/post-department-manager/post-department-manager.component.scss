@@ -1,0 +1,20 @@
+:host {
+  .container {
+    display: flex;
+
+    .department {
+      display: flex;
+      flex-direction: column;
+      flex: 0 0 50%;
+    }
+
+    .post {
+      flex: 0 0 50%;
+    }
+
+    .action {
+      margin-bottom: 10px
+    }
+
+  }
+}

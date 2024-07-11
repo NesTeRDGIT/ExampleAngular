@@ -1,0 +1,25 @@
+<zms-card [scrollStyle]="true">
+  <zms-loader-content [loading]="loading()" [message]="'Загрузка...'">
+    <div class="container">
+      <div class="action">
+        <zms-button [label]="'Назад'" [icon]="'google-symbol arrow_circle_left'" [severity]="'secondary'" (clickEvent)="onCloseClick()" />
+      </div>
+      <zms-error-list [errors]="errors()" />
+      <div class="data">
+        <zms-field [header]="'Заголовок'" [validation]="model().Title">
+          <zms-text-input ngModel [zmsValidateField]="model().Title" />
+        </zms-field>
+        <zms-field [header]="'Содержимое'" [validation]="model().Content" class="content">
+          <zms-editor ngModel [zmsValidateField]="model().Content" [imageUploadFunc]="uploadFunc" />
+        </zms-field>
+        <zms-field [header]="'Вложения'" class="attachments">
+          <zms-attachment-list #AttachmentList [articleId]="model().Id" [readonly]="false" />
+        </zms-field>
+      </div>
+      <div class="save-action">
+        <hr />
+        <zms-validation-button [label]="'Сохранить'" [icon]="'google-symbol save_as'" [validation]="model()" (clickEvent)="onSaveClick()" />
+      </div>
+    </div>
+  </zms-loader-content>
+</zms-card>

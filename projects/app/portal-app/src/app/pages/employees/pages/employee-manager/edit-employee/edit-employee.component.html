@@ -1,0 +1,99 @@
+<zms-tab-view [padding]="false">
+  <zms-tab-panel [header]="'Данные'">
+    <zms-loader-content [loading]="loading() || saving()" [message]=" loading() ?  'Загрузка...': 'Сохранение...'">
+      <div class="container">
+        <div class="employee-container">
+          <zms-error-list [errors]="errors()" />
+          <div class="container">
+            <zms-card [header]="'Персональные данные'">
+              <div class="person-information">
+                <div class="fio">
+                  <zms-field [header]="'Фамилия'" [required]="canEdit()" [validation]="employee().LastName" [validationVisible]="canEdit()">
+                    <zms-text-input ngModel [zmsValidateField]="employee().LastName" [readonly]="!canEdit()" />
+                  </zms-field>
+
+                  <zms-field [header]="'Имя'" [required]="canEdit()" [validation]="employee().FirstName" [validationVisible]="canEdit()">
+                    <zms-text-input ngModel [zmsValidateField]="employee().FirstName" [readonly]="!canEdit()" />
+                  </zms-field>
+
+                  <zms-field [header]="'Отчество'">
+                    <zms-text-input [(ngModel)]="employee().MiddleName" [readonly]="!canEdit()" />
+                  </zms-field>
+                </div>
+                <div>
+                  <zms-field [header]="'Пол'" [required]="canEdit()" [validation]="employee().Sex" [validationVisible]="canEdit()">
+                    <zms-dropdown ngModel [zmsValidateField]="employee().Sex" [options]="dictionaryService.Sex.Items()" [labelPath]="'Name'" [modelPath]="'Value'"
+                      [placeholder]="'Пол...'" [readonly]="!canEdit()" />
+                  </zms-field>
+
+                  <zms-field [header]="'Дата рождения'" [required]="canEdit()" [validation]="employee().Birthday" [validationVisible]="canEdit()" [flexContent]="false">
+                    <zms-datepicker ngModel [zmsValidateField]="employee().Birthday" [readonly]="!canEdit()" />
+                  </zms-field>
+                </div>
+              </div>
+            </zms-card>
+
+            <zms-card [header]="'Контактные данные'">
+              <div class="person-information">
+                <div class="fio">
+                  <zms-field [header]="'Email'" [validation]="employee().Email" [validationVisible]="canEdit()">
+                    <zms-text-input ngModel [zmsValidateField]="employee().Email" [readonly]="!canEdit()" />
+                  </zms-field>
+
+                  <zms-field [header]="'Номер телефона'">
+                    <zms-phone-input [(ngModel)]="employee().Phone" [readonly]="!canEdit()" />
+                  </zms-field>
+
+                  <zms-field [header]="'Внутренний номер'">
+                    <zms-mask-input [(ngModel)]="employee().InternalPhone" [unmask]="true" [placeholder]="'99-99'" [mask]="[9,9,'-',9,9]" [readonly]="!canEdit()" />
+                  </zms-field>
+                </div>
+              </div>
+            </zms-card>
+
+            <zms-card [header]="'Должность в организации'">
+              <div class="person-information">
+                <zms-field [header]="'Отдел'" [required]="canEdit()" [validation]="employee().Department" [validationVisible]="canEdit()">
+                  <zms-dropdown ngModel [zmsValidateField]="employee().Department" [options]="dictionaryService.Department.Items()" [labelPath]="'Name'"
+                    [modelPath]="'Id'" [filter]="true" filterBy="Name" [readonly]="!canEdit()" />
+                </zms-field>
+
+                <zms-field [header]="'Должность'" [required]="canEdit()" [validation]="employee().Post" [validationVisible]="canEdit()">
+                  <zms-dropdown ngModel [zmsValidateField]="employee().Post" [options]="dictionaryService.Post.Items()" [labelPath]="'Name'" [modelPath]="'Id'"
+                    [filter]="true" filterBy="Name" [readonly]="!canEdit()" />
+                </zms-field>
+
+                <zms-field [header]="'Местоположение'" [required]="canEdit()" [validation]="employee().WorkplaceValue" [validationVisible]="canEdit()">
+                  <zms-workplace-select [zmsValidateStyle]="employee().WorkplaceValue" [(text)]="employee().WorkplaceName"
+                    [(workplaceValue)]="employee().WorkplaceValue.Value" [readonly]="!canEdit()" />
+                </zms-field>
+
+              </div>
+            </zms-card>
+          </div>
+
+          <zms-card [header]="'Период работы'">
+            <zms-work-period-manager [employeeId]="employeeId()" [readonly]="!canEdit()" />
+          </zms-card>
+
+          <zms-card [header]="'Фотографии'">
+            <zms-photos-editor [employeeId]="employeeId()" [readonly]="!canEdit()" />
+          </zms-card>
+        </div>
+      </div>
+      <div>
+        <hr />
+        @if (canEdit()) {
+          <zms-validation-button [label]="'Сохранить'" [icon]="'google-symbol save_as'" [disabled]="saving()" [validation]="employee()" (clickEvent)="saveEmployee()" />
+        }
+      </div>
+    </zms-loader-content>
+  </zms-tab-panel>
+  @if (canEditReplacement()) {
+    <zms-tab-panel [header]="'Замещения'" [cache]="false">
+      <ng-template [keyTemplate]="'content'">
+        <zms-replacement-manager [employeeId]="employeeId()" />
+      </ng-template>
+    </zms-tab-panel>
+  }
+</zms-tab-view>

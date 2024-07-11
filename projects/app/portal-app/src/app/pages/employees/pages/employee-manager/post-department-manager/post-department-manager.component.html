@@ -1,0 +1,80 @@
+<div class="container">
+  <div class="department">
+    <zms-card [header]="'Отделы'">
+      <zms-double-panel [showSecondPanel]="departmentEditVisible.visible()" [hideBorder]="true">
+        <ng-template [keyTemplate]="'FirstPanel'">
+          <div class="action">
+            <zms-button [label]="'Создать'" [icon]="'google-symbol add_circle'" (clickEvent)="onAddDepartmentClick()" />
+          </div>
+          <zms-table [items]="departmentItems()" [contextMenu]="DepartmentContextMenu" [dataKey]="'Id'" [(selection)]="departmentSelection.selectedItems" [selectionMode]="'multiple'"
+            [(contextMenuSelection)]="departmentSelection.contextSelect" (contextMenuSelect)="onDepartmentContextMenuSelect()"
+            [loading]="loading()" [scrollable]="true">
+            <ng-template [keyTemplate]="'header'" let-columns>
+              <tr>
+                <th [zmsSortableColumn]="'MainName'">Наименование
+                  <zms-sort-icon [field]="'MainName'" />
+                </th>
+                <th style="width: 120px;" [zmsSortableColumn]="'Priority'">Приоритет
+                  <zms-sort-icon [field]="'Priority'" />
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template [keyTemplate]="'body'" let-item let-rowIndex="rowIndex">
+              <tr [zmsContextMenuRow]="item" [zmsSelectableRow]="item" [zmsSelectableRowIndex]="rowIndex" (dblclick)="onEditDepartmentClick(item)">
+                <td>
+                  <span [zmsTooltip]="item.Name" [tooltipDisabled]="item.ShortName === ''">{{item.MainName}}</span>
+                </td>
+                <td style="text-align: right;">{{item.Priority}}</td>
+              </tr>
+            </ng-template>
+          </zms-table>
+          <zms-context-menu #DepartmentContextMenu [items]="departmentSelection.contextMenuItems()" />
+        </ng-template>
+        <ng-template [keyTemplate]="'SecondPanel'">
+          <zms-department-edit [model]="departmentEditVisible.value()" (changed)="onDepartmentChanged()" (closed)="onDepartmentCloseEdit()" />
+        </ng-template>
+      </zms-double-panel>
+    </zms-card>
+  </div>
+  <div class="post">
+    <zms-card [header]="'Должности'">
+      <zms-double-panel [hideBorder]="true" [showSecondPanel]="postEditVisible.visible()">
+        <ng-template [keyTemplate]="'FirstPanel'">
+          <div class="action">
+            <zms-button [label]="'Создать'" [icon]="'google-symbol add_circle'" (clickEvent)="onAddPostClick()" />
+          </div>
+          <zms-table [items]="postItems()" [contextMenu]="PostContextMenu" [dataKey]="'Id'" [(selection)]="postSelection.selectedItems" [selectionMode]="'multiple'"
+            [(contextMenuSelection)]="postSelection.contextSelect" (contextMenuSelect)="onPostContextMenuSelect()" [loading]="loading()"
+            [scrollable]="true">
+            <ng-template [keyTemplate]="'header'" let-columns>
+              <tr>
+                <th [zmsSortableColumn]="'MainName'">Наименование
+                  <zms-sort-icon [field]="'MainName'" />
+                </th>
+                <th style="width: 200px;" [zmsSortableColumn]="'ChiefPositionName'">Типа руководящей должности
+                  <zms-sort-icon [field]="'ChiefPositionName'" />
+                </th>
+                <th style="width: 120px;" [zmsSortableColumn]="'Priority'">Приоритет
+                  <zms-sort-icon [field]="'Priority'" />
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template [keyTemplate]="'body'" let-item let-rowIndex="rowIndex">
+              <tr [zmsContextMenuRow]="item" [zmsSelectableRow]="item" [zmsSelectableRowIndex]="rowIndex" (dblclick)="onEditPostClick(item)">
+                <td>
+                  <span [zmsTooltip]="item.Name" [tooltipDisabled]="item.ShortName === ''">{{item.MainName}}</span>
+                </td>
+                <td>{{item.ChiefPositionName}}</td>
+                <td style="text-align: right;">{{item.Priority}}</td>
+              </tr>
+            </ng-template>
+          </zms-table>
+          <zms-context-menu #PostContextMenu [items]="postSelection.contextMenuItems()" />
+        </ng-template>
+        <ng-template [keyTemplate]="'SecondPanel'">
+          <zms-post-edit [model]="postEditVisible.value()" (changed)="onPostChanged()" (closed)="onPostCloseEdit()" />
+        </ng-template>
+      </zms-double-panel>
+    </zms-card>
+  </div>
+</div>

@@ -1,0 +1,10 @@
+:host {
+  .container {
+    flex: 1;
+    display: flex;
+
+    zms-auto-complete{
+      width: 100%;
+    }
+  }
+}

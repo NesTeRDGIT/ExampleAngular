@@ -3,7 +3,7 @@ import { FilterField } from "../model/FilterField";
 import { TypeComparer } from "../model/TypeComparer";
 import { Observable } from "rxjs";
 
-/** Сервис для фильтрации */
+/** Сервис для фильтрации в памяти */
 @Injectable({ providedIn: 'root' })
 export class FilterService {
 
@@ -98,7 +98,7 @@ export class FilterService {
       const filterValue = filter.toString().toLocaleLowerCase();
       const stringValue = value.toString().toLocaleLowerCase();
 
-      return stringValue.indexOf(filterValue) !== -1;
+      return stringValue.includes(filterValue);
     },
 
     notContains: (value: unknown, filter: unknown): boolean => {
@@ -113,7 +113,7 @@ export class FilterService {
       const filterValue = filter.toString().toLocaleLowerCase();
       const stringValue = value.toString().toLocaleLowerCase();
 
-      return stringValue.indexOf(filterValue) === -1;
+      return !stringValue.includes(filterValue);
     },
 
     endsWith: (value: unknown, filter: unknown): boolean => {
@@ -128,7 +128,7 @@ export class FilterService {
       const filterValue = filter.toString().toLocaleLowerCase();
       const stringValue = value.toString().toLocaleLowerCase();
 
-      return stringValue.indexOf(filterValue, stringValue.length - filterValue.length) !== -1;
+      return stringValue.includes(filterValue, stringValue.length - filterValue.length);
     },
 
     equals: (value: unknown, filter: unknown): boolean => {
@@ -157,6 +157,7 @@ export class FilterService {
         return true;
       }
 
+      // eslint-disable-next-line @typescript-eslint/prefer-for-of
       for (let i = 0; i < filter.length; i++) {
         if (value == filter[i]) {
           return true;

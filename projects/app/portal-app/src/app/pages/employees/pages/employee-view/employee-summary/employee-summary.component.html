@@ -1,0 +1,20 @@
+<div class="summary-content">
+  <zms-table [items]="model()" [loading]="loading()" [stripedStyle]="false">
+    <ng-template [keyTemplate]="'body'" let-summary>
+      <tr>
+        <th (click)="filterBySummary('Total')">Всего сотрудников :</th>
+        <td>{{summary.Total}}</td>
+    </tr>
+    <tr [ngClass]="{'activeFilter': summaryFilterState() === 'MainOffice'}">
+        <th (click)="filterBySummary('MainOffice')">В центральном офисе:</th>
+        <td>{{summary.MainOffice}}</td>
+    </tr>
+    <tr [ngClass]="{'activeFilter': summaryFilterState() === 'DistrictOffice'}">
+        <th (click)="filterBySummary('DistrictOffice')">
+            В районах:
+        </th>
+        <td>{{summary.DistrictOffice}}</td>
+    </tr>
+    </ng-template>
+  </zms-table>
+</div>

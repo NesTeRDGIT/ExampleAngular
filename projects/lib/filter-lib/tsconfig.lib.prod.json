@@ -5,6 +5,8 @@
     "declarationMap": false,
     "paths": {
       "@shared-lib": ["dist/shared-lib"],
+      "@components-lib": ["dist/components-lib"],
+      "@authorization-lib": ["dist/authorization-lib"]
     }
   },
   "angularCompilerOptions": {

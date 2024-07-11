@@ -1,0 +1,15 @@
+<div class="edit-container" #editContainer>
+  <zms-loader-content class="flex" [message]="'Загрузка адреса'">
+    <div>
+      @for (select of treeSelect(); track select) {
+        <div class="tree-item">
+          <zms-workplace-part-select [items]="select.children" (currentChange)="onCurrentChange($event, select)" [current]="select.selectItem" />
+        </div>
+      }
+    </div>
+    <div class="action">
+      <zms-button [label]="'Принять'" (clickEvent)="onAcceptClick()" />
+      <zms-button [label]="'Отмена'" (clickEvent)="onCloseClick()" />
+    </div>
+  </zms-loader-content>
+</div>

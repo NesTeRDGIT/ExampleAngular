@@ -18,7 +18,7 @@
       "prefix": "zms",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:browser-esbuild",
           "options": {
             "progress": true,
             "outputPath": "dist/oms-app",
@@ -35,24 +35,21 @@
             ],
             "styles": [
               "projects/lib/shared-lib/src/lib/styles/styles.scss",
-              "projects/lib/shared-lib/src/lib/styles/primeNgStyle.scss",
               "projects/lib/shared-lib/src/lib/styles/googleIcon.scss",
               "node_modules/primeicons/primeicons.css",
-              "node_modules/primeng/resources/themes/mdc-light-indigo/theme.css",
-              "node_modules/primeng/resources/primeng.min.css"
+              "node_modules/primeng/resources/primeng.min.css",
+              "projects/primeng-theme/zms-theme/theme.scss"
             ],
-            "scripts": [
-              "projects/lib/shared-lib/src/lib/types/implementation/date.prototype.implementation.js"
-            ],
+            "scripts": [],
             "allowedCommonJsDependencies": [
-              "crypto-js"
+              "streamsaver",
+              "@zmsit/ckeditor5"
             ]
           },
           "configurations": {
             "development": {
               "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true,
@@ -61,7 +58,6 @@
             "test": {
               "buildOptimizer": true,
               "optimization": true,
-              "vendorChunk": false,
               "extractLicenses": false,
               "sourceMap": false,
               "namedChunks": false,
@@ -77,7 +73,6 @@
             "production": {
               "buildOptimizer": true,
               "optimization": true,
-              "vendorChunk": false,
               "extractLicenses": false,
               "sourceMap": false,
               "namedChunks": false,
@@ -98,13 +93,22 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "oms-app:build:production"
+              "buildTarget": "oms-app:build:production"
             },
             "development": {
-              "browserTarget": "oms-app:build:development"
+              "buildTarget": "oms-app:build:development"
             }
           },
           "defaultConfiguration": "development"
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/app/oms-app/**/*.ts",
+              "projects/app/oms-app/**/*.html"
+            ]
+          }
         }
       }
     },
@@ -123,7 +127,7 @@
       "prefix": "zms",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:browser-esbuild",
           "options": {
             "progress": true,
             "outputPath": "dist/portal-app",
@@ -140,24 +144,21 @@
             ],
             "styles": [
               "projects/lib/shared-lib/src/lib/styles/styles.scss",
-              "projects/lib/shared-lib/src/lib/styles/primeNgStyle.scss",
               "projects/lib/shared-lib/src/lib/styles/googleIcon.scss",
               "node_modules/primeicons/primeicons.css",
-              "node_modules/primeng/resources/themes/mdc-light-indigo/theme.css",
-              "node_modules/primeng/resources/primeng.min.css"
+              "node_modules/primeng/resources/primeng.min.css",
+              "projects/primeng-theme/zms-theme/theme.scss"
             ],
-            "scripts": [
-              "projects/lib/shared-lib/src/lib/types/implementation/date.prototype.implementation.js"
-            ],
+            "scripts": [],
             "allowedCommonJsDependencies": [
-              "crypto-js"
+              "streamsaver",
+              "@zmsit/ckeditor5"
             ]
           },
           "configurations": {
             "development": {
               "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true,
@@ -166,7 +167,6 @@
             "test": {
               "buildOptimizer": true,
               "optimization": true,
-              "vendorChunk": false,
               "extractLicenses": false,
               "sourceMap": false,
               "namedChunks": false,
@@ -203,13 +203,22 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "portal-app:build:production"
+              "buildTarget": "portal-app:build:production"
             },
             "development": {
-              "browserTarget": "portal-app:build:development"
+              "buildTarget": "portal-app:build:development"
             }
           },
           "defaultConfiguration": "development"
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/app/portal-app/**/*.ts",
+              "projects/app/portal-app/**/*.html"
+            ]
+          }
         }
       }
     },
@@ -233,6 +242,15 @@
             }
           },
           "defaultConfiguration": "production"
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/lib/shared-lib/**/*.ts",
+              "projects/lib/shared-lib/**/*.html"
+            ]
+          }
         }
       }
     },
@@ -256,6 +274,15 @@
             }
           },
           "defaultConfiguration": "production"
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/lib/address-lib/**/*.ts",
+              "projects/lib/address-lib/**/*.html"
+            ]
+          }
         }
       }
     },
@@ -279,6 +306,15 @@
             }
           },
           "defaultConfiguration": "production"
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/lib/download-lib/**/*.ts",
+              "projects/lib/download-lib/**/*.html"
+            ]
+          }
         }
       }
     },
@@ -302,6 +338,15 @@
             }
           },
           "defaultConfiguration": "production"
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/lib/filter-lib/**/*.ts",
+              "projects/lib/filter-lib/**/*.html"
+            ]
+          }
         }
       }
     },
@@ -325,6 +370,47 @@
             }
           },
           "defaultConfiguration": "production"
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/lib/authorization-lib/**/*.ts",
+              "projects/lib/authorization-lib/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "components-lib": {
+      "projectType": "library",
+      "root": "projects/lib/components-lib",
+      "sourceRoot": "projects/lib/components-lib/src",
+      "prefix": "zms",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/lib/components-lib/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/lib/components-lib/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/lib/components-lib/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/lib/components-lib/**/*.ts",
+              "projects/lib/components-lib/**/*.html"
+            ]
+          }
         }
       }
     }

@@ -1,4 +1,3 @@
-<div class="field">
-    <label>{{header}}</label>
-    <p-calendar [(ngModel)]="value" dateFormat="dd.mm.yy" appendTo="body"></p-calendar>
-</div>
+<zms-field [header]="header()" [required]="required()">
+  <zms-datepicker [ngModel]="value()" (ngModelChange)="convertValue($event)" [view]="view()" [showTime]="sendTime()" />
+</zms-field>

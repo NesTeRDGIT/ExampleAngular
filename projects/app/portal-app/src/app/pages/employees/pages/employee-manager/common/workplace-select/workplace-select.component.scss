@@ -1,0 +1,23 @@
+:host {
+  .container {
+    .container-view {
+      display: flex;
+
+      zms-text-input {
+        flex: 1;
+      }
+
+      zms-button {
+        width: 35px;
+      }
+    }
+  }
+
+  &.ng-invalid.ng-touched{
+    zms-component-group{
+      border: solid 1px red;
+      border-radius: 5px;
+    }
+  }
+}
+

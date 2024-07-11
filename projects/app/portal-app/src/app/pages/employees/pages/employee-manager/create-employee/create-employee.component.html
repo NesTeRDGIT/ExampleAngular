@@ -1,0 +1,86 @@
+<zms-loader-content [loading]="saving()" [message]="'Сохранение...'">
+  <div class="container">
+    <div class="employee-container">
+      <zms-error-list [errors]="errors()" />
+      <div class="container">
+        <zms-card [header]="'Персональные данные'">
+          <div class="person-information">
+            <div class="fio">
+              <zms-field [header]="'Фамилия'" [required]="true" [validation]="employee().LastName">
+                <zms-text-input ngModel [zmsValidateField]="employee().LastName" />
+              </zms-field>
+
+              <zms-field [header]="'Имя'" [required]="true" [validation]="employee().FirstName">
+                <zms-text-input ngModel [zmsValidateField]="employee().FirstName" />
+              </zms-field>
+
+              <zms-field [header]="'Отчество'">
+                <zms-text-input [(ngModel)]="employee().MiddleName" />
+              </zms-field>
+            </div>
+            <div>
+              <zms-field [header]="'Пол'" [required]="true" [validation]="employee().Sex">
+                <zms-dropdown ngModel [zmsValidateField]="employee().Sex" [options]="dictionaryService.Sex.Items()" [labelPath]="'Name'"
+                  [modelPath]="'Value'" placeholder="Пол..." />
+              </zms-field>
+
+              <zms-field [header]="'Дата рождения'" [validation]="employee().Birthday" [flexContent]="false">
+                <zms-datepicker ngModel [zmsValidateField]="employee().Birthday" />
+              </zms-field>
+            </div>
+          </div>
+        </zms-card>
+        <zms-card [header]="'Контактные данные'">
+          <div class="person-information">
+            <div class="fio">
+              <zms-field [header]="'Email'" [validation]="employee().Email">
+                <zms-text-input ngModel [zmsValidateField]="employee().Email" />
+              </zms-field>
+
+              <zms-field [header]="'Номер телефона'">
+                <zms-phone-input [(ngModel)]="employee().Phone" />
+              </zms-field>
+
+              <zms-field [header]="'Внутренний номер'">
+                <zms-mask-input [(ngModel)]="employee().InternalPhone" [unmask]="true" placeholder="99-99" [mask]="[9,9,'-',9,9]" />
+              </zms-field>
+            </div>
+          </div>
+        </zms-card>
+
+        <zms-card [header]="'Должность в организации'">
+          <div class="person-information">
+            <zms-field [header]="'Отдел'" [required]="true" [validation]="employee().Department">
+              <zms-dropdown ngModel [zmsValidateField]="employee().Department" [options]="dictionaryService.Department.Items()"
+                [labelPath]="'Name'" [modelPath]="'Id'" [filter]="true" filterBy="Name" />
+            </zms-field>
+
+            <zms-field [header]="'Должность'" [required]="true" [validation]="employee().Post">
+              <zms-dropdown ngModel [zmsValidateField]="employee().Post" [options]="dictionaryService.Post.Items()" [labelPath]="'Name'"
+                [modelPath]="'Id'" [filter]="true" filterBy="Name" />
+            </zms-field>
+
+            <zms-field [header]="'Местоположение'" [required]="true" [validation]="employee().WorkplaceValue">
+              <zms-workplace-select [zmsValidateStyle]="employee().WorkplaceValue" [(text)]="employee().WorkplaceName" [(workplaceValue)]="employee().WorkplaceValue.Value" />
+            </zms-field>
+          </div>
+        </zms-card>
+      </div>
+
+      <zms-card [header]="'Период работы'">
+        <div class="period">
+          <zms-field [header]="'Дата начала'" [required]="true" [validation]="employee().DateStart">
+            <zms-datepicker ngModel [zmsValidateField]="employee().DateStart" />
+          </zms-field>
+          <zms-field [header]="'Дата окончания'" [validation]="employee().DateEnd">
+            <zms-datepicker ngModel [zmsValidateField]="employee().DateEnd" />
+          </zms-field>
+        </div>
+      </zms-card>
+    </div>
+  </div>
+  <div>
+    <hr />
+    <zms-validation-button [label]="'Сохранить'" [icon]="'google-symbol save_as'" [disabled]="saving()" [validation]="employee()" (clickEvent)="saveEmployee()" />
+  </div>
+</zms-loader-content>

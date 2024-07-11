@@ -1,0 +1,16 @@
+:host {
+  display: inherit;
+
+  .action {
+    margin-bottom: 10px
+  }
+
+  hr {
+    margin-bottom: 8px;
+  }
+
+  .data {
+    display: flex;
+    justify-content: flex-start;
+  }
+}

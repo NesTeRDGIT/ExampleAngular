@@ -1,12 +1,15 @@
 <nav class="navbar">
   <div class="menu-start">
-    <div *ngIf="!isTest" class="logo"></div>
-    <h2 *ngIf="isTest" class="test-label">Тестовый стенд</h2>
+    @if (isTest()) {
+      <h2 class="test-label">Тестовый стенд</h2>
+    } @else {
+      <div class="logo"></div>
+    }
   </div>
   <div class="menu-center">
-    <p-menubar [model]="menuItems"></p-menubar>
+    <zms-menu-bar [items]="menuItems()" [autoDisplay]="false" />
   </div>
   <div class="menu-end">
-    <p-menubar [model]="menuRightItems" class="right"></p-menubar>
+    <zms-menu-bar [items]="menuRightItems()" [autoDisplay]="false" [popupAlign]="'right'" />
   </div>
 </nav>

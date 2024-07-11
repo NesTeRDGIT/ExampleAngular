@@ -1,0 +1,16 @@
+<div class="container">
+  <div class="container-view">
+    <zms-component-group>
+      <zms-text-input #addressInput [ngModel]="text()" [readonly]="true" />
+      @if (!readonly()) {
+        <zms-button [icon]="'google-symbol edit_square'" (clickEvent)="onEditClick()" />
+      }
+    </zms-component-group>
+  </div>
+  <zms-overlay-panel #overlayPanel [dismissable]="false">
+    <ng-template [keyTemplate]="'content'">
+      <zms-workplace-edit-panel [nodes]="dictionaryService.WorkplaceTree.Items()" [selectWorkplaceValue]="workplaceValue()" (accept)="onAccept($event)"
+        (cancel)="onCancel()" />
+    </ng-template>
+  </zms-overlay-panel>
+</div>

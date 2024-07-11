@@ -1,0 +1,63 @@
+<zms-card [background-color]="selected() ? 'gainsboro':''">
+  <div class="container">
+    <div class="row1">
+      <div class="col1">
+        <div role="button" tabindex="0" (click)="onClickImage(item().AvatarPhotoId)" (keydown)="onKeyDown($event, item().AvatarPhotoId)" class="avatar">
+          <div class="avatar-wrapper">
+            <img alt="Аватар" class="photo" [src]="item().AvatarPhotoId === 0 ? defaultPhoto() : employeePhotoRepository.getUrlThumbnailImageById(item().AvatarPhotoId)"
+              loading="lazy" [class.no-photo]="item().AvatarPhotoId === 0" />
+          </div>
+          @if (item().IsBirthday) {
+            <img class="birthday-sticker" alt="Стикер" [src]="'/assets/birthdayIcon.png'" loading="lazy" />
+          }
+        </div>
+      </div>
+      <div class="col2">
+        <div class="header">{{item().FullName}}</div>
+        <div class="other">
+          <div class="other-wrapper">
+            <table>
+              <tr>
+                <td>Отдел</td>
+                <td [zmsTooltip]="item().DepartmentName" [tooltipPosition]="'top'" [tooltipDisabled]="item().DepartmentShortName === ''">
+                  {{item().DepartmentShortName !== "" ? item().DepartmentShortName  : item().DepartmentName}}
+                </td>
+              </tr>
+              <tr>
+                <td>Должность</td>
+                <td [zmsTooltip]="item().PostName" [tooltipPosition]="'top'" [tooltipDisabled]="item().PostShortName === ''">
+                  {{item().PostShortName !== "" ? item().PostShortName  : item().PostName}}
+                </td>
+              </tr>
+              <tr>
+                <td>Дата рождения</td>
+                <td [class.birthday]="item().IsBirthday || item().IsBirthday10Day">
+                  {{item().Birthday|date:'dd MMMM'}}
+                  @if(item().AnniversaryAge !== null){
+                    ({{item().AnniversaryAge}} лет)
+                  }
+                </td>
+              </tr>
+              <tr>
+                <td>Внутренний номер</td>
+                <td> {{item().InternalPhone}}</td>
+              </tr>
+              <tr>
+                <td>Номер телефона</td>
+                <td>{{item().Phone|phone}}</td>
+              </tr>
+              <tr>
+                <td>Email</td>
+                <td> {{item().Email}}</td>
+              </tr>
+              <tr>
+                <td>Рабочее место</td>
+                <td> {{item().WorkplaceName}}</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</zms-card>

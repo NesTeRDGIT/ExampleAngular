@@ -1,0 +1,40 @@
+<zms-double-panel [showSecondPanel]="workplaceEditVisible.visible()" [hideBorder]="true">
+  <ng-template [keyTemplate]="'FirstPanel'">
+    <div class="action">
+      <zms-button [label]="'Создать'" [icon]="'google-symbol add_circle'" (clickEvent)="onAddClick()" />
+    </div>
+    <zms-tree-table [items]="items()" [dataKey]="'Value'" [selectionMode]="'multiple'" [selection]="selection.selectedItems()"
+      (selectionChange)="onSelectionChange($event)" [contextMenu]="cm" [(contextMenuSelection)]="selection.contextSelect" (contextMenuSelect)="onContextMenuSelect()">
+      <ng-template [keyTemplate]="'header'">
+        <tr>
+          <th>Наименование</th>
+          <th style="width: 100px;">Признак главного офиса</th>
+          <th style="width: 100px;">Признак офиса в районе</th>
+          <th style="width: 60px;">Код</th>
+        </tr>
+      </ng-template>
+      <ng-template [keyTemplate]="'body'" let-rowNode let-rowData="rowData">
+        <tr [zmsTTRow]="rowNode" [zmsTTContextMenuRow]="rowNode" [zmsTTSelectableRow]="rowNode" (dblclick)="onEditClick(rowNode.node)">
+          <td>
+            <zms-tree-table-toggler [rowNode]="rowNode" />
+            <span [zmsTooltip]="rowData.FullName">{{rowData.Name}}</span>
+          </td>
+          <td>{{rowData.IsMainOffice | yesNo}}</td>
+          <td>{{rowData.IsDistrictOffice | yesNo}}</td>
+          <td>{{rowData.Value}}</td>
+        </tr>
+      </ng-template>
+    </zms-tree-table>
+    <zms-context-menu #cm [items]="selection.contextMenuItems()" />
+    <zms-dialog [(visible)]="moveVisible.visible" [header]="'Выбор родительской записи...'" (hide)="onCloseMove()">
+      <ng-template [keyTemplate]="'content'">
+        <zms-workplace-edit-panel [nodes]="dictionaryService.WorkplaceTree.Items()" (accept)="onMoveTargeSelect($event)" (cancel)="onCloseMove()"/>
+      </ng-template>
+    </zms-dialog>
+  </ng-template>
+  <ng-template [keyTemplate]="'SecondPanel'">
+    @if (workplaceEditVisible.visible()) {
+      <zms-workplace-edit [model]="workplaceEditVisible.value().item" [parent]="workplaceEditVisible.value().parent" (changed)="load()" (closed)="onCloseEdit()" />
+    }
+  </ng-template>
+</zms-double-panel>

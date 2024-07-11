@@ -1,0 +1,60 @@
+<zms-double-panel [showSecondPanel]="editVisible.visible()" [hideBorder]="true">
+  <ng-template [keyTemplate]="'FirstPanel'">
+    <div class="action">
+      <zms-button [label]="'Создать'" [icon]="'google-symbol add_circle'" (clickEvent)="onAddClick()" />
+    </div>
+    <zms-table [items]="replacements.items()" [trackByFn]="trackByFn" [contextMenu]="cm" [dataKey]="'Id'" [(selection)]="selection.selectedItems" [selectionMode]="'multiple'"
+      [(contextMenuSelection)]="selection.contextSelect" (contextMenuSelect)="onContextMenuSelect()" [loading]="loading()"
+       [scrollable]="true">
+      <ng-template [keyTemplate]="'header'">
+        <tr>
+          <th [zmsSortableColumn]="'Id'" style="width:50px">Id
+            <zms-sort-icon [field]="'Id'" />
+          </th>
+          <th [zmsSortableColumn]="'SubstituteFullName'" style="width:200px">ФИО замещающего сотрудника
+            <zms-sort-icon [field]="'SubstituteFullName'" />
+          </th>
+          <th [zmsSortableColumn]="'DateStart'" style="width:150px">Дата начала
+            <zms-sort-icon [field]="'DateStart'" />
+          </th>
+          <th [zmsSortableColumn]="'DateEnd'" style="width:150px">Дата окончания
+            <zms-sort-icon [field]="'DateEnd'" />
+          </th>
+          <th [zmsSortableColumn]="'AuthorityNumber'" style="width:200px">Номер доверенности
+            <zms-sort-icon [field]="'AuthorityNumber'" />
+          </th>
+          <th [zmsSortableColumn]="'AuthorityDate'" style="width:150px">Дата доверенности
+            <zms-sort-icon [field]="'AuthorityDate'" />
+          </th>
+          <th [zmsSortableColumn]="'PostTitle'" style="width:200px">Название должности замещения
+            <zms-sort-icon [field]="'PostTitle'" />
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template [keyTemplate]="'body'" let-replacement let-rowIndex="rowIndex" let-columns="columns">
+        <tr [zmsContextMenuRow]="replacement" [zmsSelectableRow]="replacement" [zmsSelectableRowIndex]="rowIndex" (dblclick)="onEditClick(replacement)">
+          <td>{{replacement.Id}}</td>
+          <td>{{replacement.SubstituteFullName}}</td>
+          <td>{{replacement.DateStart | date :'dd.MM.yyyy'}}</td>
+          <td>{{replacement.DateEnd | date :'dd.MM.yyyy'}}</td>
+          <td>{{replacement.AuthorityNumber}}</td>
+          <td>{{replacement.AuthorityDate | date :'dd.MM.yyyy'}}</td>
+          <td>{{replacement.PostTitle}}</td>
+        </tr>
+      </ng-template>
+    </zms-table>
+    <zms-context-menu #cm [items]="selection.contextMenuItems()" />
+
+    <zms-dialog [(visible)]="selectDateVisible.visible" [header]="'Выбор даты окончания...'" (hide)="onCloseSelectDate()">
+      <ng-template [keyTemplate]="'content'">
+        <zms-select-date [date]="selectDateVisible.value().Date" (selectChange)="onSelectDateEnd(selectDateVisible.value().Replacement, $event)" />
+      </ng-template>
+    </zms-dialog>
+
+  </ng-template>
+  <ng-template [keyTemplate]="'SecondPanel'">
+    @if (editVisible.visible()) {
+      <zms-replacement-edit [model]="editVisible.value()" (changed)="load()" (closed)="onCloseEdit()" />
+    }
+  </ng-template>
+</zms-double-panel>

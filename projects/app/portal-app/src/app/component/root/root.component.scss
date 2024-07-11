@@ -49,16 +49,6 @@
         .buttons {
             display: flex;
             justify-content: space-between;
-
-            ::ng-deep .reject {
-                .p-button {
-                    background-color: gray !important;
-
-                    &:hover {
-                        background-color: rgb(78, 78, 78) !important;
-                    }
-                }
-            }
         }
     }
 }

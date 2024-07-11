@@ -1,4 +1,3 @@
-<div class="field">
-    <label>{{header}}</label>
-    <input type="text" pInputText [(ngModel)]="value" />
-</div>
+<zms-field [header]="header()" [required]="required()">
+  <zms-number-input name="number-filter" [(ngModel)]="value" [grouping]="false" />
+</zms-field>

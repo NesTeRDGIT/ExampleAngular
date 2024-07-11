@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="row-1">
+    <div class="title">
+      {{article().Title}}
+    </div>
+    <div class="attachment" [zmsTooltip]="'Количество вложений'">
+      <span class="google-symbol attach_file"></span>
+      <span class="text">{{article().AttachmentCount}}</span>
+    </div>
+  </div>
+  <div class="row-2">
+    <div class="content">
+      <zms-editor [editable]="false" [ngModel]="article().ContentPart | imgSrcUpdate : imgSrcUpdater" />
+    </div>
+  </div>
+  <div class="row-3">
+    <div class="create-date">
+      Дата создания: {{article().CreatedDate | date : 'dd.MM.yyyy HH:mm'}}
+    </div>
+    <div class="buttons">
+      @if(!readonly()){
+        <zms-button [icon]="'google-symbol edit'" [rounded]="true" [zmsTooltip]="'Редактировать'" (clickEvent)="onEdit($event)" />
+        <zms-button [icon]="'google-symbol close'" [rounded]="true" [severity]="'danger'" [zmsTooltip]="'Удалить'" (clickEvent)="onDelete($event)" />
+      }
+    </div>
+  </div>
+</div>

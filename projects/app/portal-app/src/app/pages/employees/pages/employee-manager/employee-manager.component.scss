@@ -1,0 +1,19 @@
+:host {
+  
+  .action {
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+
+    .dictionary {
+      display: flex;
+      flex: 1;
+      justify-content: flex-end;
+
+      zms-button {
+        margin: 0 0 0 5px;
+      }
+
+    }
+  }
+}

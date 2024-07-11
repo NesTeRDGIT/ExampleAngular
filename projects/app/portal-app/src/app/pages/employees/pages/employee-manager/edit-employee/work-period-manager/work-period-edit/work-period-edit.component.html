@@ -1,0 +1,16 @@
+<zms-loader-content [loading]="saving()" message="Сохранение...">
+  <div class="action">
+    <zms-button [label]="'Назад'" [icon]="'google-symbol arrow_circle_left'" [disabled]="saving()" [severity]="'secondary'" (clickEvent)="onCloseClick()" />
+  </div>
+  <zms-error-list [errors]="errors()" />
+  <div class="data">
+    <zms-field [header]="'Дата начала'" [required]="true" [validation]="model().DateStart">
+      <zms-datepicker ngModel [zmsValidateField]="model().DateStart" />
+    </zms-field>
+    <zms-field [header]="'Дата окончания'" [validation]="model().DateEnd">
+      <zms-datepicker ngModel [zmsValidateField]="model().DateEnd" />
+    </zms-field>
+  </div>
+  <hr />
+  <zms-validation-button [label]="'Сохранить'" [icon]="'google-symbol save_as'" [disabled]="saving()" [validation]="model()" (clickEvent)="onSaveClick()" />
+</zms-loader-content>

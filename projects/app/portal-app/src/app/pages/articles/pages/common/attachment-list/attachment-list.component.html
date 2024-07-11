@@ -1,0 +1,76 @@
+<zms-loader-content [loading]="loading()" [message]="'Запрос фотографий'">
+  <div class="container">
+    <div class="list">
+      <table class="table">
+        @for (attachment of attachments.items(); track attachment;) {
+          <tr>
+            <td [width]="'20px'">
+              <div class="icons">
+                <span class="google-symbol attach_file"></span>
+                @if(attachment.Type.Value === 'system'){
+                  <span [zmsTooltip]="'Системное вложение (пользователи не увидят его в списке вложений)'" class="system-attachment-icon google-symbol info"></span>
+                }
+              </div>
+            </td>
+            <td>
+              <div class="name">
+                {{attachment.Name}}
+              </div>
+            </td>
+            <td>
+              <div class="action">
+                <div class="action-buttons">
+                  @if(attachment.isPdf && attachment.Id !== 0){
+                    <zms-button [icon]="'google-symbol visibility'" [rounded]="true" [zmsTooltip]="'Просмотр'" (clickEvent)="onShowPdfClick(attachment)" />
+                  }
+                  @if(attachment.isImage && attachment.Id !== 0){
+                    <zms-button [icon]="'google-symbol visibility'" [rounded]="true" [zmsTooltip]="'Просмотр'" (clickEvent)="onShowImageClick(attachment)" />
+                  }
+                  @if(attachment.Id !== 0){
+                    <zms-button [icon]="'google-symbol download'" [rounded]="true" [zmsTooltip]="'Скачать файл'" (clickEvent)="onDownloadClick(attachment)" />
+                  }
+                  @if(!readonly() && attachment.Type.Value === 'system'){
+                    <zms-button [icon]="'google-symbol content_copy'" [rounded]="true" [zmsTooltip]="'Копировать Url'" (clickEvent)="onCopyUrlClick(attachment)" />
+                  }
+                  @if(!readonly()){
+                    <zms-button [icon]="'google-symbol close'" [rounded]="true" [severity]="'danger'" [zmsTooltip]="'Удалить'" (clickEvent)="onDeleteClick(attachment)" />
+                  }
+                </div>
+                @if(attachment.Id === 0 && attachment.State.state !== 'finish'){
+                  <zms-progress-bar [mode]="attachment.State.state === 'pending' ? 'indeterminate' : 'determinate'" [value]="attachment.State.progress" />
+                }
+              </div>
+            </td>
+          </tr>
+        }
+      </table>
+    </div>
+    @if(!readonly()){
+      <div class="add-container">
+        <input #InputFile hidden type="file" [multiple]="true" (change)="onFileSelected($event)" />
+        <zms-button [label]="'Добавить'" [icon]="'google-symbol add_circle'" (clickEvent)="InputFile.click()" />
+      </div>
+    }
+  </div>
+
+  <zms-dialog [header]="'Просмотр документа'" [(visible)]="pdfViewer.visible" (visibleChange)="onHidePdfClick()" [maximizable]="true" [width]="'90vw'" [height]="'90vh'">
+    <ng-template [keyTemplate]="'content'">
+      <zms-loader-content [loading]="this.pdfViewer.value().loadState.state !== 'finish'" [mode]="'determinate'" [progress]="this.pdfViewer.value().loadState.progress">
+        <zms-pdf-viewer [src]="pdfViewer.value().data" />
+      </zms-loader-content>
+    </ng-template>
+  </zms-dialog>
+
+  <zms-galleria [items]="photoViewer.value()" [(visible)]="photoViewer.visible" (visibleChange)="onHideImageClick()" [maxWidth]="'50%'">
+    <ng-template [keyTemplate]="'item'" let-item>
+      <div class="image-container">
+        <zms-loader-content [loading]="item.State.state !== 'finish'" [mode]="'determinate'" [progress]="item.State.progress">
+          @if(this.imageRef() !== undefined){
+            <img alt="Изображение" [alt]="item.Name" [src]="this.imageRef()" class="main-photo" />
+          }
+        </zms-loader-content>
+      </div>
+    </ng-template>
+  </zms-galleria>
+
+</zms-loader-content>

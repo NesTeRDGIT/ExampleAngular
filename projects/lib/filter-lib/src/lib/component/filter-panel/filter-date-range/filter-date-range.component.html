@@ -1,4 +1,4 @@
-<div class="field">
-    <label>{{header}}</label>
-    <p-calendar #calendar [(ngModel)]="value" (onClose)="onClose()" [view]="calendarTypeView" selectionMode="range" [dateFormat]="dateFormat" appendTo="body" (keyup)="onKeyUp($event)"></p-calendar>
-</div>
+<zms-field [header]="header()" [required]="required()">
+  <zms-datepicker #calendar [ngModel]="value()" (ngModelChange)="convertValue($event)" (closeEvent)="onClose()" [view]="view()" [selectionMode]="'range'"
+    [showTime]="sendTime() && !autoTime()" appendTo="body" (keyup)="onKeyUp($event)" (blurEvent)="onBlur()" />
+</zms-field>

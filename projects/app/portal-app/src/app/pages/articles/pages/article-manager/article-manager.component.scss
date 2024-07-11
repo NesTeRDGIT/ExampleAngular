@@ -1,0 +1,60 @@
+:host {
+    zms-double-panel {
+        overflow: hidden;
+    }
+
+    .main-container {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        overflow: hidden;
+        align-items: center;
+
+        zms-loader-content {
+            width: 100%;
+        }
+
+        .items {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            overflow: auto;
+            align-items: center;
+            min-width: 600px;
+
+            .items-container {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 50%;
+                min-width: 600px;
+
+                zms-article-item {
+                    width: 100%;
+                }
+            }
+
+        }
+
+    }
+
+    zms-paginator {
+        width: 100%;
+    }
+
+    zms-article-view,
+    zms-article-edit {
+        display: flex;
+        overflow: hidden;
+        flex-direction: column;
+        flex: 1;
+    }
+
+    .toolbar{
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+    }
+}

@@ -1,0 +1,52 @@
+<zms-loader-content [loading]="saving()" [message]="'Сохранение...'">
+  <div class="action">
+    <zms-button [label]="'Назад'" [icon]="'google-symbol arrow_circle_left'" [disabled]="saving()" [severity]="'secondary'" (clickEvent)="onCloseClick()" />
+  </div>
+  <zms-error-list [errors]="errors()" />
+  <div>
+    <table>
+      <tr>
+        <td colspan="2">
+          <zms-field [header]="'Замещающий сотрудник'" [required]="model().Id === 0" [validation]="model().SubstituteId">
+            <zms-select-employee [zmsValidateStyle]="model().SubstituteId" [(employeeId)]="model().SubstituteId.Value" ngModel (ngModelChange)="onChangeEmployee($event)" [readonly]="model().Id !== 0" />
+          </zms-field>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <zms-field [header]="'Наименование должности'" [required]="true" [validation]="model().PostTitle">
+            <zms-text-input ngModel [zmsValidateField]="model().PostTitle" />
+          </zms-field>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <zms-field [header]="'Номер доверенности'" [required]="true" [validation]="model().AuthorityNumber">
+            <zms-text-input ngModel [zmsValidateField]="model().AuthorityNumber" />
+          </zms-field>
+        </td>
+        <td>
+          <zms-field [header]="'Дата доверенности'" [required]="true" [validation]="model().AuthorityDate">
+            <zms-datepicker ngModel [zmsValidateField]="model().AuthorityDate" />
+          </zms-field>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <zms-field [header]="'Дата начала'" [required]="true" [validation]="model().DateStart">
+            <zms-datepicker ngModel [zmsValidateField]="model().DateStart" />
+          </zms-field>
+        </td>
+        <td>
+          <zms-field [header]="'Дата окончания'" [required]="true" [validation]="model().DateEnd">
+            <zms-datepicker ngModel [zmsValidateField]="model().DateEnd" />
+          </zms-field>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div>
+    <hr />
+    <zms-validation-button [label]="'Сохранить'" [icon]="'google-symbol save_as'" [disabled]="saving()" [validation]="model()" (clickEvent)="saveClick()" />
+  </div>
+</zms-loader-content>

@@ -1,3 +1,5 @@
-<div class="field">
-    <p-triStateCheckbox [(ngModel)]="value" [label]="header"></p-triStateCheckbox>
+<div class="container">
+  <div [class.required]="required()">
+    <zms-check-box [(ngModel)]="value" [label]="header()" [nullable]="true" />
+  </div>
 </div>

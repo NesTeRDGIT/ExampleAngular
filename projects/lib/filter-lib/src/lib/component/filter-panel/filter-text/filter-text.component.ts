@@ -1,4 +1,4 @@
-import { Component, forwardRef, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, forwardRef } from '@angular/core';
 import { FilterPanelComponent } from '../filter-panel.component';
 import { FilterField } from '../../../model/FilterField';
 import { FilterItemBaseComponent } from '../filter-item-base/filter-item-base.component';
@@ -8,45 +8,27 @@ import { TypeComparer } from '../../../model/TypeComparer';
   selector: 'zms-filter-text',
   templateUrl: './filter-text.component.html',
   providers: [{ provide: FilterItemBaseComponent, useExisting: forwardRef(() => FilterTextComponent) }],
-  host: { class: 'filter-text' }
+  host: { class: 'filter-text' },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FilterTextComponent extends FilterItemBaseComponent<string> implements OnInit {
+export class FilterTextComponent extends FilterItemBaseComponent<string> {
 
   constructor(owner: FilterPanelComponent) {
     super(owner);
-    if(this.value == undefined){
-      this.value = "";
+    if(this.value() == undefined){
+      this.value.set("");
     }
   }
 
-  ngOnInit(): void {
-    if (this.field) {
-      this.filter = FilterField.Create(this.field, TypeComparer.contains, this.custom, this.name, this.singleUrl);
-      this.owner.filters.push(this.filter)
-    }
-    this.setDefault();
+  getFilterField = (): FilterField[] => {
+    return [FilterField.Create(this.field(), TypeComparer.contains, false, '', this.singleUrl(), this.value())];
   }
 
-  commitFilter = () => {
-    if (this.filter) {
-      this.filter.value = this.value;
-    }
-  }
-  rollbackFilter = () => {
-    if (this.filter && typeof this.filter.value == "string") {
-      this.value = this.filter.value;
-    } else{
-      this.value = "";
-    }
-  };
-
-  clearFilter = () => {
-    if (this.filter) {
-      this.filter.value = this.value = "";
-    }
+  clearFilter = () : void => {
+    this.value.set("");
   }
 
   hasValue = (): boolean => {
-    return this.value !== "" && this.value !== null;
+    return this.value() !== "" && this.value() !== null;
   }
 }

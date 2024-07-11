@@ -1,0 +1,3 @@
+<div class="container">
+  <zms-auto-complete [ngModel]="current()" (ngModelChange)="ngModelChange($event)" [items]="visibleItems()" [labelPath]="'Item.Name'" (search)="onSearch($event)" />
+</div>

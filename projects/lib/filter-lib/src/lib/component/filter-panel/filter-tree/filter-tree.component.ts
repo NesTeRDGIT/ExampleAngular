@@ -1,5 +1,5 @@
 import { TreeNode } from './TreeNode';
-import { Component, forwardRef, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, forwardRef, input, signal, untracked } from '@angular/core';
 import { FilterPanelComponent } from '../filter-panel.component';
 import { FilterField } from '../../../model/FilterField';
 import { FilterItemBaseComponent } from '../filter-item-base/filter-item-base.component';
@@ -9,103 +9,80 @@ import { TypeComparer } from '../../../model/TypeComparer';
 @Component({
   selector: 'zms-filter-tree',
   templateUrl: './filter-tree.component.html',
+  styleUrl: './filter-tree.component.scss',
   providers: [{ provide: FilterItemBaseComponent, useExisting: forwardRef(() => FilterTreeComponent) }],
-  host: { class: 'filter-tree' }
+  host: { class: 'filter-tree' },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FilterTreeComponent extends FilterItemBaseComponent<unknown[]> implements OnInit {
-
-  _nodes: TreeNode[] = [];
-  /** Дерево выбора */
-  @Input() set nodes(value: TreeNode[]) {
-    this._nodes = value;
-    this.setDefault();
-  }
-  get nodes(): TreeNode[] {
-    return this._nodes;
-  }
-
-  _selected: TreeNode[] = [];
-  /** Выбранные элементы */
-  set selectedNode(selected: TreeNode[]) {
-    if (this._selected !== selected) {
-      this._selected = selected;
-      this.value = selected.map(x => x.data);
-    }
-  }
-  get selectedNode(): TreeNode[] {
-    return this._selected;
-  }
+export class FilterTreeComponent extends FilterItemBaseComponent<unknown[]> {
 
   constructor(owner: FilterPanelComponent) {
     super(owner);
-    if (this.value == undefined) {
-      this.value = [];
+    if (this.value() == undefined) {
+      this.value.set([]);
+    }
+
+    effect(() => {
+      const nodes = this.nodes();
+      if(nodes.length !== 0) {
+        untracked(this.setDefault);
+      }
+    })
+  }
+
+  /** Дерево выбора */
+  nodes = input<TreeNode[]>([]);
+
+  /** Выбранные элементы */
+  selectedNode = signal<TreeNode[]>([]);
+
+  changeSelectedNode = (selected: TreeNode[]) : void => {
+    if (this.selectedNode() !== selected) {
+      this.selectedNode.set(selected);
+      this.value.set(selected.map(x => x.data));
     }
   }
 
-  ngOnInit(): void {
-    if (this.field) {
-      this.filter = FilterField.Create(this.field, TypeComparer.in, this.custom, this.name, this.singleUrl);
-      this.owner.filters.push(this.filter)
-    }
-    this.setDefault();
-  }
-
-  commitFilter = () => {
-    if (this.filter) {
-      this.filter.value = this.value;
-    }
-  }
-
-  rollbackFilter = () => {
-    if (this.filter && Array.isArray(this.filter.value)) {
-      this.value = this.filter.value;
-    } else {
-      this.value = [];
-      this._selected = [];
-    }
-  };
-
-  clearFilter = () => {
-    if (this.filter) {
-      this.filter.value = this.value = [];
-      this._selected = [];
-    }
+  clearFilter = () : void => {
+    this.changeSelectedNode([]);
   }
 
   hasValue = (): boolean => {
-    if (this.value == undefined) {
+    const value = this.value();
+    if (value == undefined) {
       return false;
     } else {
-      return this.value.length !== 0;
+      return value.length !== 0;
     }
   }
 
+  getFilterField = (): FilterField[] => {
+    return [FilterField.Create(this.field(), TypeComparer.in, false, '', this.singleUrl(), this.value())];
+  }
+
   /** Установить значение по умолчанию */
-  setDefault = () => {
-    if (this.default !== undefined) {
-      /** В массив значений */
-      if (!Array.isArray(this.default)) {
-        this.default = [this.default];
-      }
+  override setDefault = () : void => {
+    const def = this.default();
+    const defaultItems = def.flatMap(x => Array.isArray(x.value) ? x.value : [x.value]);
+    const nodes = this.nodes();
+    if (defaultItems.length != 0) {
       /** Если варианты уже установленны */
-      if (this.nodes.length != 0) {
-        this.value = [];
+      if (nodes.length != 0) {
+        this.value.set([]);
         const selected: TreeNode[] = []
-        for (const opt of this.getAllItemFromNode(this.nodes)) {
+        for (const opt of this.getAllItemFromNode(nodes)) {
           const value = opt.data;
           if (value != undefined) {
-            for (const defItem of this.default) {
+            for (const defItem of defaultItems) {
               if (defItem == value) {
                 selected.push(opt);
               }
             }
           }
         }
-
-        this.selectedNode = selected;
+        this.changeSelectedNode(selected);
       } else {
-        this.value = this.default;
+        this.value.set(defaultItems);
       }
     }
   }
@@ -118,5 +95,4 @@ export class FilterTreeComponent extends FilterItemBaseComponent<unknown[]> impl
       return items.concat(items.flatMap(x => this.getAllItemFromNode(x.children)));
     }
   }
-
 }

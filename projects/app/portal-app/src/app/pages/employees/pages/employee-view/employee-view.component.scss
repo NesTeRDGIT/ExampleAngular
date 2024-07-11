@@ -1,0 +1,59 @@
+:host {
+
+  .employee-wrapper {
+    overflow: auto;
+
+    .employee-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+    }
+  }
+
+  .main-photo {
+    width: 80vw;
+    height: 80vh;
+    object-fit: contain;
+  }
+
+  .thumbnail-photo {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+  }
+
+  .summary-content {
+    table {
+      border-collapse: collapse;
+
+      tr {
+        cursor: pointer;
+
+        th {
+          text-align: left;
+          width: 80%;
+          font-weight: normal;
+          padding: 5px 5px 5px 10px;
+
+          i {
+            vertical-align: middle;
+          }
+        }
+
+        td {
+          text-align: right;
+          width: 20%;
+          padding: 5px 5px 5px 10px;
+        }
+      }
+
+      tr:hover {
+
+        td,
+        th {
+          background: #ecf1e2;
+        }
+      }
+    }
+  }
+
+}

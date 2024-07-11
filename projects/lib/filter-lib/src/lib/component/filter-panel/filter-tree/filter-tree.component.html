@@ -1,4 +1,3 @@
-<div class="field">
-    <label>{{header}}</label>
-    <p-treeSelect [(ngModel)]="selectedNode" [options]="nodes" selectionMode="checkbox" appendTo="body" [containerStyle]="{'width':'100%'}"></p-treeSelect>
-</div>
+<zms-field [header]="header()" [required]="required()">
+  <zms-tree-select name="tree-filter" [ngModel]="selectedNode()" (ngModelChange)="changeSelectedNode($event)" [items]="nodes()" />
+</zms-field>

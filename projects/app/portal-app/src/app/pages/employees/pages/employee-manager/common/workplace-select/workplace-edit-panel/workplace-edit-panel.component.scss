@@ -1,0 +1,26 @@
+:host {
+
+  .edit-container {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    border-radius: 5px;
+    width: 400px;
+    height: 280px;
+    overflow: hidden;
+    flex: 1;
+
+    .tree-item {
+      margin: 0 0 10px 0;
+    }
+
+
+    .action {
+      flex: 0;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+
+}

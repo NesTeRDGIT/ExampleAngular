@@ -4,9 +4,17 @@ import { InvalidCastException } from '@shared-lib'
 /** Поле фильтрации */
 export class FilterField {
 
-  private constructor(field: string, typeComparer: TypeComparer, custom: boolean, name: string, singleUrl: boolean, value: unknown = null) {
-
-    this.field = field.split("|").map(x => x.trim());
+  /**
+   *
+   * @param field Поле фильтрации
+   * @param typeComparer тип сравнения
+   * @param custom признак пользовательского
+   * @param key - ключ
+   * @param singleUrl - признак отдельного Url
+   * @param value - Значение
+   */
+  private constructor(field: string[], typeComparer: TypeComparer, custom: boolean, key: string, singleUrl: boolean, value: unknown = null) {
+    this.field = field;
     this.typeComparer = typeComparer;
     switch (typeComparer) {
       case TypeComparer.between:
@@ -14,10 +22,10 @@ export class FilterField {
       default:
         this.value = null;
     }
-    this.name = name;
+    this.key = key;
     this.singleUrl = singleUrl;
     this.custom = custom;
-    if(value != null){
+    if (value != null) {
       this.value = value;
     }
   }
@@ -31,10 +39,10 @@ export class FilterField {
   /** Значение */
   value: unknown[] | unknown = [];
 
-  /** Наименование поля(Ключ) */
-  name = "";
+  /** Ключ */
+  key = "";
 
-  /** Признак пользовательского фильтра */
+  /** Признак пользовательского фильтра(т.е. метка что создано  пользователем) */
   custom = false;
 
   /** Признак фильтрации как отдельный компонент
@@ -47,7 +55,7 @@ export class FilterField {
     if (Array.isArray(this.value)) {
       return this.value.length !== 0;
     } else {
-      return this.value !== null && this.value !== "";
+      return this.value !== null && this.value !== "" || this.custom;
     }
   }
 
@@ -55,19 +63,18 @@ export class FilterField {
   get arrayValue(): unknown[] {
     if (Array.isArray(this.value))
       return this.value;
-    throw new InvalidCastException();
+    throw new InvalidCastException(this.value, 'Array');
   }
 
   /** Получить одиночное значение */
   get singleValue(): unknown {
     if (!Array.isArray(this.value))
       return this.value;
-    throw new InvalidCastException();
+    throw new InvalidCastException(this.value, 'unknown');
   }
 
 
   /** Создать поле фильтрации
-   *
    * @param field - имя поля
    * @param typeComparer - тип сравнения
    * @param custom - признак пользовательского фильтра
@@ -76,42 +83,55 @@ export class FilterField {
    * @param value - значение
    * @returns
    */
-  static Create = (field: string, typeComparer: TypeComparer, custom: boolean, name: string, singleUrl: boolean, value: unknown = null): FilterField => {
-    return new FilterField(field, typeComparer,custom, name, singleUrl, value);
+  static Create = (field: string[], typeComparer: TypeComparer, custom: boolean, key: string, singleUrl: boolean, value: unknown = null): FilterField => {
+    return new FilterField(field, typeComparer, custom, key, singleUrl, value);
   }
 
+
   /** Создать поле фильтрации по умолчанию
-   *
    * @param field - имя поля
    * @param typeComparer - тип сравнения
    * @param value - значение
    * @returns
    */
-  static CreateDefault = (field: string, typeComparer: TypeComparer, value: unknown = null): FilterField => {
-    return new FilterField(field, typeComparer, false, "", false, value);
+  static CreateDefault = (field: string[] | string, typeComparer: TypeComparer, value: unknown = null): FilterField => {
+    const fields = typeof field == 'string' ? [field] : field;
+    return new FilterField(fields, typeComparer, false, "", false, value);
   }
 
   /** Создать поле фильтрации пользовательского фильтра
-   *
    * @param field - имя поля
    * @param field - имя
    * @param typeComparer - тип сравнения
    * @param value - значение
    * @returns
    */
-  static CreateCustom = (field: string, typeComparer: TypeComparer, value: unknown = null,  name = '') => {
-    return new FilterField(field, typeComparer, true, name, false, value);
+  static CreateCustom = (field: string[] | string, typeComparer: TypeComparer, value: unknown = null, key = ''): FilterField => {
+    const fields = typeof field == 'string' ? [field] : field;
+    return new FilterField(fields, typeComparer, true, key, false, value);
+  }
+
+  /** Создать поле фильтрации пользовательского фильтра
+ * @param field - имя поля
+ * @param field - имя
+ * @param typeComparer - тип сравнения
+ * @param value - значение
+ * @returns
+ */
+  static CreateCustomGeneric = <T>(field: string[] | string, typeComparer: TypeComparer, value: T, key = '') : FilterField => {
+    const fields = typeof field == 'string' ? [field] : field;
+    return new FilterField(fields, typeComparer, true, key, false, value);
   }
 
   /** Создать поле фильтрации как отдельный компонент
-   *
    * @param field - имя поля
    * @param typeComparer - тип сравнения
    * @param name - наименование
    * @param value - значение
    * @returns
    */
-  static CreateSingleUrl = (field: string, typeComparer: TypeComparer, name: string, value: unknown = null) => {
-    return new FilterField(field, typeComparer, false, name, true, value);
+  static CreateSingleUrl = (field: string[] | string, typeComparer: TypeComparer, value: unknown = null) : FilterField => {
+    const fields = typeof field == 'string' ? [field] : field;
+    return new FilterField(fields, typeComparer, false, '', true, value);
   }
 }

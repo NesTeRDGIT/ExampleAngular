@@ -1,11 +1,11 @@
 <div class="root">
-  <zms-top-bar class="root-menu"></zms-top-bar>
+  <zms-top-bar class="root-menu" />
   <div class="root-container">
-    <router-outlet></router-outlet>
+    <router-outlet />
   </div>
-  <p-toast position="bottom-right"></p-toast>
-  <p-toast position="bottom-center" key="confirm" (onClose)="onReject($event.message)" [baseZIndex]="5000">
-    <ng-template let-message pTemplate="message">
+  <zms-toast [position]="'bottom-right'"/>
+  <zms-toast [position]="'bottom-center'" [key]="'confirm'" (closed)="onReject($event.message)">
+    <ng-template let-message [keyTemplate]="'message'">
       <div class="confirm-message">
         <div class="icon">
           <i class="google-symbol warning" ></i>
@@ -15,10 +15,10 @@
           <div>{{message.detail}}</div>
         </div>
         <div class="buttons">
-          <p-button (click)="onConfirm(message)" label="Подтвердить" class="confirm"></p-button>
-          <p-button (click)="onReject(message)" label="Отменить" class="reject"></p-button>
+          <zms-button [label]="'Подтвердить'" (clickEvent)="onConfirm(message)"   />
+          <zms-button [label]="'Отменить'" [severity]="'contrast'" (clickEvent)="onReject(message)"/>
         </div>
       </div>
     </ng-template>
-  </p-toast>
+  </zms-toast>
 </div>

@@ -1,11 +1,11 @@
 import { Metadata } from "./Metadata"
 
 /** Ответ на запрос коллекции с постраничным выводом */
-export abstract class ResponsePaginationCollection<T>{
+export abstract class ResponsePaginationCollection<T> {
 
-  Init(data: T[], totalCount: number) {
-    this.Data = data;
-    this.Metadata.Pagination.Count = totalCount;
+  Init(source: any, initFunction: ((x: any) => T) | null): void {
+    this.Data = source.Data.map((x: any) => initFunction ? initFunction(x) : x as T);
+    this.Metadata = Metadata.Create(source.Metadata);
   }
 
   /** Элементы справочника */

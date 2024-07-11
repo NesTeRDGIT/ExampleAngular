@@ -1,67 +1,92 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, effect, input, signal, untracked, } from "@angular/core";
 import { FilterPanelComponent } from "../filter-panel.component";
 import { FilterField } from "../../../model/FilterField";
+import { Subject } from "rxjs";
+import { FieldInfo } from "../../../model/FieldInfo";
 
 @Component({
   selector: 'zms-filter-item-base',
   template: '<div></div>',
-  host: { class: 'filter-item' }
+  host: { class: 'filter-item' },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export abstract class FilterItemBaseComponent<T> implements OnInit  {
+export abstract class FilterItemBaseComponent<T = unknown> implements OnInit, OnDestroy {
   owner: FilterPanelComponent
-  @Input() header = "";
+
+
+  constructor(owner: FilterPanelComponent) {
+    this.owner = owner;
+
+    this.setDefault();
+  }
+
+  ngOnDestroy(): void {
+    this.effect.destroy();
+    this.owner.removeFilterItem(this as FilterItemBaseComponent);
+  }
+
+  ngOnInit(): void {
+    this.owner.addFilterItem(this as FilterItemBaseComponent);
+    this.setDefault();
+  }
+
+  /** Заголовок */
+  header = input("");
 
   /** Поле для фильтрации */
-  @Input() field: string | undefined = undefined;
+  field = input.required<string[], string | string[]>({
+    transform: (value: string | string[]) => {
+      if (typeof value == "string") {
+        return value.split("|").map(x => x.trim());
+      }
+      return value;
+    }
+  });
 
   /** Значение фильтра по умолчанию */
-  @Input() default: T | undefined;
+  default = input<FieldInfo[], unknown>([], {
+    transform: (value: unknown) => {
+      if (Array.isArray(value)) {
+        const field = this.field();
+        return value.map((x, index) => new FieldInfo(index < this.field.length ? field[index] : '', x));
+      } else {
+        return [new FieldInfo('', value)]
+      }
+    }
+  });
 
-  /** Имя фильтра */
-  @Input() name = "";
+  /** Признак фильтра обязательно к заполнение */
+  required = input(false);
 
   /** Признак фильтрации как отдельный компонент
    * Т.е. при обработке фильтра ServerSide будет указано отдельное значение с именем параметра name
    */
-  @Input() singleUrl = false;
-
-  @Input() custom = false;
+  singleUrl = input(false);
 
   /** Значение */
-  value: T | null = null;
+  value = signal<T | null>(null);
 
-  /** Фильтр */
-  filter: FilterField | null = null;
+  value$ = new Subject<T | null>();
 
-  constructor(owner: FilterPanelComponent) {
-    this.owner = owner;
-    if(this.default !== undefined){
-      this.value = this.default;
-    }
-  }
-
-  ngOnInit(): void {
-    if(this.default !== undefined){
-      this.value = this.default;
-    }
-  }
+  private effect = effect(() => {
+    const value = this.value();
+    untracked(() => this.value$.next(value));
+  });
 
   /** Установить значение по умолчанию */
-  setDefault = ()=>{
-    if(this.default !== undefined){
-      this.value = this.default;
+  setDefault = (): void => {
+    const def = this.default();
+    if (def.length !== 0) {
+      this.value.set(def[0].value as T);
     }
   }
 
   /** Очистить фильтр */
   abstract clearFilter: () => void;
 
-  /** Фиксировать фильтр */
-  abstract commitFilter: () => void;
-
-  /** Откатить значение фильтра */
-  abstract rollbackFilter: () => void;
-
   /** Указано ли значение в компоненте */
   abstract hasValue: () => boolean;
+
+  /** Получить значение фильтра */
+  abstract getFilterField: () => FilterField[]
 }

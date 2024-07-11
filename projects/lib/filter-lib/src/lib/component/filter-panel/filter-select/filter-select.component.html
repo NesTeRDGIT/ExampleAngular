@@ -1,4 +1,4 @@
-<div class="field">
-    <label>{{header}}</label>
-    <p-multiSelect [options]="options" [optionLabel]="optionLabel" [optionValue]="optionValue" appendTo="body" [(ngModel)]="value"></p-multiSelect>
-</div>
+<zms-field [header]="header()" [required]="required()">
+  <zms-multiselect [options]="options()" [labelPath]="optionLabel()" [modelPath]="optionValue()" [ngModel]="value()"
+  (ngModelChange)="value.set($event)" [display]="'comma'"/>
+</zms-field>

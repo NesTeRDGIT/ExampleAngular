@@ -1,0 +1,22 @@
+<zms-loader-content [loading]="saving()" [message]="'Сохранение...'">
+  <div class="action">
+    <zms-button [label]="'Назад'" [icon]="'google-symbol arrow_circle_left'" [disabled]="saving()" [severity]="'secondary'" (clickEvent)="onCloseClick()" />
+  </div>
+  <div>
+    <zms-field [header]="'Наименование'" [required]="true" [validation]="model().Name">
+      <zms-text-input ngModel [zmsValidateField]="model().Name" />
+    </zms-field>
+
+    <zms-field [header]="'Краткое наименование'">
+      <zms-text-input [(ngModel)]="model().ShortName" />
+    </zms-field>
+
+    <zms-field [header]="'Приоритет'" [required]="true">
+      <zms-number-input [(ngModel)]="model().Priority" [mode]="'decimal'" [showButtons]="true" [min]="0" [max]="100" />
+    </zms-field>
+  </div>
+  <div>
+    <hr />
+    <zms-validation-button [label]="'Сохранить'" [icon]="'google-symbol save_as'" [disabled]="saving()" [validation]="model()" (clickEvent)="saveEmployee()" />
+  </div>
+</zms-loader-content>

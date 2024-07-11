@@ -1,0 +1,18 @@
+:host {
+  .container {
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px;
+    margin-bottom: 7px;
+
+    div {
+      display: flex;
+      cursor: pointer;
+
+      &.required::after {
+        content: "*";
+        color: red;
+      }
+    }
+  }
+}

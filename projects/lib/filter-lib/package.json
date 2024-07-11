@@ -1,11 +1,4 @@
 {
   "name": "filter-lib",
-  "version": "0.0.1",
-  "peerDependencies": {
-    "@angular/common": "^15.0.0",
-    "@angular/core": "^15.0.0"
-  },
-  "dependencies": {
-    "tslib": "^2.3.0"
-  }
+  "version": "0.0.1"
 }

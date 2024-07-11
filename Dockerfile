@@ -4,7 +4,8 @@ ARG env
 ARG app
 WORKDIR /app
 COPY package*.json ./
-RUN npm install
+COPY .npmrc ./
+RUN npm install -f
 COPY . .
 RUN npm run $app:full-build:$env
 
